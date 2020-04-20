@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-I. -Wall
 DEPS = life.h
-OBJ = life.o 
+OBJ = life.o logic.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
