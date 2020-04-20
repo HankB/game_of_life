@@ -6,6 +6,10 @@ KISS - two dimensional array to represent game board with functions to evaluate 
 
 Use a `Makefile` to automate biulding and testing.
 
+## Status
+
+Building a skeleton
+
 ## Testing
 
 Plan to use CUnit for testing.
