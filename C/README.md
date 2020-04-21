@@ -12,4 +12,16 @@ Building a skeleton
 
 ## Testing
 
-Plan to use CUnit for testing.
+`CUnit` for unit testing.
+
+```text
+make test_logic
+./test_logic
+```
+
+`valgrind` for memory usage testing
+
+```text
+make
+valgrind ./life
+```
