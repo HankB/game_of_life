@@ -5,10 +5,24 @@
 
 #include "life.h"
 
-bool *get_universe(unsigned int dim) {
+bool *get_universe(unsigned int dim)
+{
     return (bool *)malloc((sizeof (bool))*dim*dim);
 }
 
-void release_universe(bool* u) {
+
+int init_universe(locus coordinates[])
+{
+    int     i = 0;
+
+    while (coordinates[i].row != -1) {
+        printf("%d [%d][%d]\n", i, coordinates[i].row, coordinates[i].col);
+        i++;
+    }
+    return 0;
+}
+
+void release_universe(bool* u)
+{
     free(u);
 }
