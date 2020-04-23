@@ -25,3 +25,15 @@ make test_logic
 make
 valgrind ./life
 ```
+
+## Output
+
+```text
+_______
+|_|X|_|
+|X|X|_|
+|_|_|_|
+
+```
+
+```
