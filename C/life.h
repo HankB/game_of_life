@@ -7,6 +7,9 @@ typedef struct {
     int col;
 } locus;
 
+// calculate offset into universe
+#define OFFSET(loc,dim) (loc.row*dim + loc.col)
+
 bool *get_universe(unsigned int dim);
 void release_universe(bool* u); 
-int init_universe(locus coordinates[]);
+int init_universe(bool * universe, uint dim, const locus coordinates[]);
