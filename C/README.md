@@ -1,6 +1,12 @@
 # Game of Life in C
 
-## Strategy
+## Play Strategy
+
+The "Universe" in which the game plays out will be a fixed two dimensional array of boolean values that indicate occupied or empty. Two copies of the universe are kept. One with present state and one with next state.
+
+For locations on the edge and corners, out of bounds locations will be considered to be empty.
+
+## Development Plan
 
 KISS - two dimensional array to represent game board with functions to evaluate the next state of each cell and to iterage through generations on the board.
 
