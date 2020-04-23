@@ -7,8 +7,11 @@
 
 bool *get_universe(unsigned int dim)
 {
-    return (bool *)malloc((sizeof (bool))*dim*dim);
-}
+    bool * universe = (bool *)malloc((sizeof (bool))*dim*dim);
+    if(universe != NULL) {
+        for( int i=0; i< dim*dim; i++) {
+            universe[i] = false;
+        }
 
 
 int init_universe(locus coordinates[])
