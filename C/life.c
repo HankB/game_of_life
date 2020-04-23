@@ -5,6 +5,7 @@
  * tests are complete
  */
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "life.h"
 
