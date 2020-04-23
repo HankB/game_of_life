@@ -1,5 +1,6 @@
 //#include <CUnit/CUnit.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "life.h"
 
@@ -76,7 +77,7 @@ locus disp[] = {
 
 void test_init_universe(void)
 {
-    init_universe(disp);
+    init_universe(universe, 3, disp);
 }
 
 /* Simple test of release_universe()
@@ -110,8 +111,9 @@ int main()
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
-       (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe)) ||
-       (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)))
+       (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
+       (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
+       )
    {
       CU_cleanup_registry();
       return CU_get_error();
