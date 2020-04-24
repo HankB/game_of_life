@@ -35,9 +35,6 @@
  *                      asserts       5       5       5       0
  */
 
-/*#include <stdio.h>
-//#include <string.h>
-*/
 #include "CUnit/Basic.h"
 
 /* The suite initialization function.
@@ -56,6 +53,7 @@ int clean_suite1(void)
     return 0;
 }
 
+/* Initial tests share `universe` */
 static bool * universe;
 
 /* Simple test of get_universe().
@@ -64,6 +62,33 @@ void test_get_universe(void)
 {
     universe = get_universe(3);
     CU_ASSERT(universe != (bool *)0);
+}
+
+/* test the macro OFFSET() 
+*/
+
+void test_OFFSET(void)
+{
+    locus l = {0,0};
+
+    /* visual crutch ;)
+    |0|1|2|
+    |3|4|5|
+    |6|7|8|
+    */
+
+    CU_ASSERT(OFFSET(l, 3) == 0);
+    l.col = 1;
+    CU_ASSERT(OFFSET(l, 3) == 1);
+    l.col = 2;
+    CU_ASSERT(OFFSET(l, 3) == 2);
+    l.col = 0;
+    l.row = 1;
+    CU_ASSERT(OFFSET(l, 3) == 3);
+    l.col = 1;
+    CU_ASSERT(OFFSET(l, 3) == 4);
+    l.col = l.row = 2;
+    CU_ASSERT(OFFSET(l, 3) == 8);
 }
 
 /* test initializer for universe
@@ -112,6 +137,7 @@ int main()
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
        (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
+       (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET)) ||
        (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
        )
    {
