@@ -134,7 +134,7 @@ void test_print_top(void)
 {
     static const size_t buf_len = 10;
     char buffer[buf_len];
-    memset(buffer, '\0', buf_len);
+    memset(buffer, ' ', buf_len);
 
     print_top(3, buffer, buf_len);
     CU_ASSERT_STRING_EQUAL(buffer, "_______");
@@ -145,6 +145,28 @@ void test_print_top(void)
     print_top(4, buffer, buf_len);
     CU_ASSERT_STRING_EQUAL(buffer, "_________");
 }
+
+/* Test some formatting functions
+*/
+void test_print_line(void)
+{
+    static const size_t buf_len = 10;
+    char buffer[buf_len];
+    memset(buffer, ' ', buf_len);
+
+    print_line(3, 0, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|");
+
+    print_line(3, 1, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|");
+
+    print_line(3, 2, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|");
+
+    print_line(3, 2, buffer, 6, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|");
+}
+
 
 
 /* Simple test of release_universe()
@@ -180,7 +202,8 @@ int main()
    if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
        (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
        (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET)) ||
-       (NULL == CU_add_test(pSuite, "test of test_print_top()", test_print_top)) ||
+       (NULL == CU_add_test(pSuite, "test of print_top()", test_print_top)) ||
+       (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
        (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
        )
    {

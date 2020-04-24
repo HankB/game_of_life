@@ -37,7 +37,7 @@ int init_universe(bool * universe, uint dim, const locus coordinates[])
 */
 void print_top(uint width, char * buffer, size_t buffer_len)
 {
-    int print_len = width*2+1;
+    int print_len = width*2+1;  // length of string, null terminator not included
     
     if(print_len+1 > buffer_len) {
         print_len = buffer_len-1;
@@ -45,6 +45,27 @@ void print_top(uint width, char * buffer, size_t buffer_len)
     //memset(void *s, int c, size_t n);
     memset(buffer, '_', print_len);
     buffer[print_len] = '\0';     
+}
+
+/* Print the a given line of the grid
+*/
+void print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * universe)
+{
+    int print_len = width*2+1;  // length of string, null terminator not included
+    locus l = {row,0};
+
+    if( print_len > 0 ) {
+        buffer[0] = '|';
+    }
+
+    for(int i=0; i<width; i++) {
+        l.col = i;
+        if(buffer_len > 2+i*2) {
+            buffer[1+2*i] = universe[OFFSET(l,width)]?'X':'_';
+            buffer[2+2*i] = '|';
+            buffer[3+2*i] = '\0';
+        }
+    }
 }
 
 void release_universe(bool* u)
