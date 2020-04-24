@@ -13,3 +13,4 @@ typedef struct {
 bool *get_universe(unsigned int dim);
 void release_universe(bool* u); 
 int init_universe(bool * universe, uint dim, const locus coordinates[]);
+void print_top(uint width, char * buffer, size_t buffer_len);
