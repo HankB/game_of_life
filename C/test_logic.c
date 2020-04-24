@@ -133,17 +133,21 @@ void test_init_universe(void)
 void test_print_top(void)
 {
     static const size_t buf_len = 10;
-    char buffer[buf_len];
+    char    buffer[buf_len];
+    uint    return_len;
     memset(buffer, ' ', buf_len);
 
-    print_top(3, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "_______");
+    return_len = print_top(3, buffer, buf_len);
+    CU_ASSERT_STRING_EQUAL(buffer, "_______\n");
+    CU_ASSERT_EQUAL(return_len, 8);
 
-    print_top(5, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "_________");
+    return_len = print_top(5, buffer, buf_len);
+    CU_ASSERT_STRING_EQUAL(buffer, "________\n");
+    CU_ASSERT_EQUAL(return_len, 9);
 
-    print_top(4, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "_________");
+    return_len = print_top(4, buffer, buf_len);
+    CU_ASSERT_STRING_EQUAL(buffer, "________\n");
+    CU_ASSERT_EQUAL(return_len, 9);
 }
 
 /* Test some formatting functions
@@ -152,19 +156,31 @@ void test_print_line(void)
 {
     static const size_t buf_len = 10;
     char buffer[buf_len];
+    uint    return_len;
+
+    // print first row
     memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 0, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|\n");
+    CU_ASSERT_EQUAL(return_len, 8);
 
-    print_line(3, 0, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|");
+    // print second row
+    memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 1, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|\n");
+    CU_ASSERT_EQUAL(return_len, 8);
 
-    print_line(3, 1, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|");
+    // print third row
+    memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 2, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
+    CU_ASSERT_EQUAL(return_len, 8);
 
-    print_line(3, 2, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|");
-
-    print_line(3, 2, buffer, 6, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|");
+    // print third row, insufficient buffer space
+    memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 2, buffer, 6, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|\n");
+    CU_ASSERT_EQUAL(return_len, 6);
 }
 
 

@@ -35,38 +35,61 @@ int init_universe(bool * universe, uint dim, const locus coordinates[])
 
 /* Print the top line of the grid
 */
-void print_top(uint width, char * buffer, size_t buffer_len)
+uint print_top(uint width, char * buffer, size_t buffer_len)
 {
-    int print_len = width*2+1;  // length of string, null terminator not included
+    uint print_len = width*2+2;  // length of string, null terminator not included
     
     if(print_len+1 > buffer_len) {
         print_len = buffer_len-1;
     }
-    //memset(void *s, int c, size_t n);
+
     memset(buffer, '_', print_len);
-    buffer[print_len] = '\0';     
+    buffer[print_len-1] = '\n';     
+    buffer[print_len] = '\0';
+    return print_len;
 }
 
 /* Print the a given line of the grid
 */
-void print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * universe)
+uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * universe)
 {
-    int print_len = width*2+1;  // length of string, null terminator not included
-    locus l = {row,0};
+    uint    print_width = width;        // actual number of cells to print
+    uint    print_len = print_width*2+2;  // length of string, null terminator not included
+    uint    i;
+    locus   l = {row,0};
+
+    // prevent buffer overrun
+    while(print_len > buffer_len+1) {
+        print_width--;
+        print_len = print_width*2+2;
+    }
+
+    if(print_width == 0) {
+        return 0;
+    }
 
     if( print_len > 0 ) {
         buffer[0] = '|';
     }
 
-    for(int i=0; i<width; i++) {
+    for(i=0; i<print_width; i++) {
         l.col = i;
-        if(buffer_len > 2+i*2) {
-            buffer[1+2*i] = universe[OFFSET(l,width)]?'X':'_';
-            buffer[2+2*i] = '|';
-            buffer[3+2*i] = '\0';
-        }
+        buffer[1+2*i] = universe[OFFSET(l,width)]?'X':'_';
+        buffer[2+2*i] = '|';
+        //buffer[3+2*i] = '\0';
     }
+    
+    buffer[print_len-1] = '\n';
+    buffer[print_len] = '\0';
+
+    return print_len;
 }
+
+void print_universe(uint width, char * buffer, size_t buffer_len, bool * universe)
+{
+    
+}
+
 
 void release_universe(bool* u)
 {
