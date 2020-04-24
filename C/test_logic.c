@@ -97,21 +97,24 @@ void test_OFFSET(void)
 locus disp[] = {
     {0, 1},
     {1, 1},
+    {2, 0},
+    {2, 2},
     {-1, 0}, // end of init list
     {0, 0},  // start of entrioes to ID remaining cells
     {0, 2},
     {1, 0},
     {1, 2},
-    {2, 0},
     {2, 1},
-    {2, 2},
 };
 
 void test_init_universe(void)
 {
     init_universe(universe, 3, disp);
-    CU_ASSERT(universe[OFFSET(disp[0],3) == true]);
-    for(int i=3; i<10; i++) {
+    CU_ASSERT(universe[OFFSET(disp[0],3)] == true);
+    CU_ASSERT(universe[OFFSET(disp[1],3)] == true);
+    CU_ASSERT(universe[OFFSET(disp[2],3)] == true);
+
+    for(int i=5; i<10; i++) {
         CU_ASSERT(universe[OFFSET(disp[i],3)] == false);
     }
 
@@ -122,7 +125,7 @@ void test_init_universe(void)
             count++;
         }
     }
-    CU_ASSERT(count == 2);
+    CU_ASSERT(count == 4);
 }
 
 /* Simple test of release_universe()
