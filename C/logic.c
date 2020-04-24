@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "life.h"
 
@@ -30,6 +31,20 @@ int init_universe(bool * universe, uint dim, const locus coordinates[])
         i++;
     }
     return 0;
+}
+
+/* Print the top line of the grid
+*/
+void print_top(uint width, char * buffer, size_t buffer_len)
+{
+    int print_len = width*2+1;
+    
+    if(print_len+1 > buffer_len) {
+        print_len = buffer_len-1;
+    }
+    //memset(void *s, int c, size_t n);
+    memset(buffer, '_', print_len);
+    buffer[print_len] = '\0';     
 }
 
 void release_universe(bool* u)
