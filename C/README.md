@@ -30,6 +30,7 @@ make test_logic
 ```text
 make
 valgrind ./life
+valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
 ```
 
 ## Output
