@@ -150,7 +150,7 @@ void test_print_top(void)
     CU_ASSERT_EQUAL(return_len, 9);
 }
 
-/* Test some formatting functions
+/* Test some formatting one line of outpiut
 */
 void test_print_line(void)
 {
@@ -183,7 +183,28 @@ void test_print_line(void)
     CU_ASSERT_EQUAL(return_len, 6);
 }
 
+/* Test formatting of the entire grid
+*/
+void test_print_universe(void)
+{
+    static const size_t buf_len = 33;
+    char buffer[buf_len];
+    uint    return_len;
+    static const char* test_str = "_______\n|_|X|_|\n|_|X|_|\n|X|_|X|\n";
 
+    return_len = print_universe(3, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, test_str);
+    CU_ASSERT_EQUAL(return_len, 32);
+
+
+
+    // test for memory bounds errors
+    // depends on compiling with -fsanitize=address
+    for(int i=0; i<10; i++) {
+        return_len = print_universe(3, buffer+i, buf_len-i, universe);
+    }
+
+}
 
 /* Simple test of release_universe()
 */
@@ -220,6 +241,7 @@ int main()
        (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET)) ||
        (NULL == CU_add_test(pSuite, "test of print_top()", test_print_top)) ||
        (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
+       (NULL == CU_add_test(pSuite, "test of print_universe()", test_print_universe)) ||
        (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
        )
    {

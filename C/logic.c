@@ -85,10 +85,20 @@ uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * u
     return print_len;
 }
 
-void print_universe(uint width, char * buffer, size_t buffer_len, bool * universe)
+uint print_universe(uint width, char * buffer, size_t buffer_len, bool * universe)
 {
-    
-}
+    uint    buff_next = 0;              // index of next byte in output buffer
+
+    buff_next = print_top(width, buffer, buffer_len);
+
+    for(uint i=0; i<width; i++) {
+        if(buff_next < buffer_len) {
+            buff_next += print_line(width, i, buffer+buff_next, buffer_len-buff_next, universe);
+        }
+    }
+
+    return buff_next;
+} 
 
 
 void release_universe(bool* u)
