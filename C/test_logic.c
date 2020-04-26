@@ -53,15 +53,16 @@ int clean_suite1(void)
     return 0;
 }
 
-/* Initial tests share `universe` */
-static bool * universe;
 
 /* Simple test of get_universe().
  */
 void test_get_universe(void)
 {
-    universe = get_universe(3);
+    bool * universe = get_universe(3);
+
     CU_ASSERT(universe != (bool *)0);
+
+    release_universe(universe);
 }
 
 /* test the macro OFFSET() 
@@ -109,6 +110,8 @@ locus disp[] = {
 
 void test_init_universe(void)
 {
+    bool * universe = get_universe(3);
+
     init_universe(universe, 3, disp);
     CU_ASSERT(universe[OFFSET(disp[0],3)] == true);
     CU_ASSERT(universe[OFFSET(disp[1],3)] == true);
@@ -126,6 +129,8 @@ void test_init_universe(void)
         }
     }
     CU_ASSERT(count == 4);
+
+    release_universe(universe);
 }
 
 /* Test some formatting functions
@@ -135,6 +140,9 @@ void test_print_top(void)
     static const size_t buf_len = 10;
     char    buffer[buf_len];
     uint    return_len;
+    bool * universe = get_universe(3);
+
+    init_universe(universe, 3, disp);
     memset(buffer, ' ', buf_len);
 
     return_len = print_top(3, buffer, buf_len);
@@ -148,6 +156,8 @@ void test_print_top(void)
     return_len = print_top(4, buffer, buf_len);
     CU_ASSERT_STRING_EQUAL(buffer, "________\n");
     CU_ASSERT_EQUAL(return_len, 9);
+
+    release_universe(universe);
 }
 
 /* Test some formatting one line of outpiut
@@ -157,8 +167,11 @@ void test_print_line(void)
     static const size_t buf_len = 10;
     char buffer[buf_len];
     uint    return_len;
+    bool * universe = get_universe(3);
 
-    // print first row
+     init_universe(universe, 3, disp);
+
+   // print first row
     memset(buffer, ' ', buf_len);
     return_len = print_line(3, 0, buffer, buf_len, universe);
     CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|\n");
@@ -181,6 +194,8 @@ void test_print_line(void)
     return_len = print_line(3, 2, buffer, 6, universe);
     CU_ASSERT_STRING_EQUAL(buffer, "|X|_|\n");
     CU_ASSERT_EQUAL(return_len, 6);
+    
+    release_universe(universe);
 }
 
 /* Test formatting of the entire grid
@@ -191,6 +206,9 @@ void test_print_universe(void)
     char buffer[buf_len];
     uint    return_len;
     static const char* test_str = "_______\n|_|X|_|\n|_|X|_|\n|X|_|X|\n";
+    bool * universe = get_universe(3);
+
+    init_universe(universe, 3, disp);
 
     return_len = print_universe(3, buffer, buf_len, universe);
     CU_ASSERT_STRING_EQUAL(buffer, test_str);
@@ -204,12 +222,15 @@ void test_print_universe(void)
         return_len = print_universe(3, buffer+i, buf_len-i, universe);
     }
 
+    release_universe(universe);
 }
 
 /* Simple test of release_universe()
 */
 void test_release_universe(void)
 {
+    bool * universe = get_universe(3);
+
     release_universe(universe);
     universe = 0;
     CU_ASSERT(universe == (bool *)0);
