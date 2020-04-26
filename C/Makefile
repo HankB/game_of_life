@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I. -Wall
+CFLAGS=-I. -Wall -g
 DEPS = life.h
 OBJ = life.o logic.o
 TEST_OBJ = test_logic.o logic.o
