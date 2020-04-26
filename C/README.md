@@ -14,11 +14,19 @@ Use a `Makefile` to automate biulding and testing.
 
 ## Status
 
-Building a skeleton
+Incomplete. Done:
+
+* create/init universe.
+* Output universe.
+
+Needed:
+
+* Count neighbors.
+* Iterate over universe and update.
 
 ## Testing
 
-`CUnit` for unit testing.
+`CUnit` for unit testing. The test esecutable `test_logic` is built with the electric fence library and compiled with `-fsanitize=address` to detect out of mounds memory access.
 
 ```text
 make test_logic
@@ -31,6 +39,15 @@ make test_logic
 make
 valgrind ./life
 valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
+```
+
+## Release build
+
+It is necessary to `make clean` between test and release builds because `logic.o` is built with different options for testing and the `Makefile` is not sophisticated enough to automate this.
+
+```text
+make clean
+make
 ```
 
 ## Output
