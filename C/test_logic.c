@@ -79,6 +79,7 @@ void test_OFFSET(void)
     */
 
     CU_ASSERT(OFFSET(l, 3) == 0);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 0);
     l.col = 1;
     CU_ASSERT(OFFSET(l, 3) == 1);
     l.col = 2;
