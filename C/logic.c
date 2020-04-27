@@ -53,24 +53,22 @@ uint print_top(uint width, char * buffer, size_t buffer_len)
 */
 uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * universe)
 {
-    uint    print_width = width;        // actual number of cells to print
+    int     print_width = width;        // actual number of cells to print
     uint    print_len = print_width*2+2;  // length of string, null terminator not included
     uint    i;
     locus   l = {row,0};
 
     // prevent buffer overrun
-    while(print_len > buffer_len+1) {
+    while(print_len > buffer_len) {
         print_width--;
         print_len = print_width*2+2;
     }
 
-    if(print_width == 0) {
+    if(print_width <= 0) {
         return 0;
     }
 
-    if( print_len > 0 ) {
-        buffer[0] = '|';
-    }
+    buffer[0] = '|';
 
     for(i=0; i<print_width; i++) {
         l.col = i;
@@ -94,8 +92,9 @@ uint print_universe(uint width, char * buffer, size_t buffer_len, bool * univers
     buff_next = print_top(width, buffer, buffer_len);
 
     for(uint i=0; i<width; i++) {
-        if(buff_next < buffer_len) {
-            buff_next += print_line(width, i, buffer+buff_next, buffer_len-buff_next, universe);
+        if(buff_next < buffer_len-1) {
+            buff_next += 
+                print_line(width, i, buffer+buff_next, buffer_len-buff_next-1, universe);
         }
     }
 
