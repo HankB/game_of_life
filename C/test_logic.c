@@ -269,20 +269,33 @@ int main()
       return CU_get_error();
 
    /* add a suite to the registry - utility functions*/
-   pSuite = CU_add_suite("Utility Suite", init_suite1, clean_suite1);
+   pSuite = CU_add_suite("Test Utility", init_suite1, clean_suite1);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
    }
 
    /* add the tests to the suite */
-   if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
-       (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
-       (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET)) ||
-       (NULL == CU_add_test(pSuite, "test of print_top()", test_print_top)) ||
-       (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
-       (NULL == CU_add_test(pSuite, "test of print_universe()", test_print_universe)) ||
-       (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
+    if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
+        (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
+        (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET))
+       )
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* add a suite to the registry - output functions*/
+   pSuite = CU_add_suite("test Output", init_suite1, clean_suite1);
+   if (NULL == pSuite) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+    if ((NULL == CU_add_test(pSuite, "test of print_top()", test_print_top)) ||
+        (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
+        (NULL == CU_add_test(pSuite, "test of print_universe()", test_print_universe)) ||
+        (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
        )
    {
       CU_cleanup_registry();
