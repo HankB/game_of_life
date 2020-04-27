@@ -102,6 +102,21 @@ uint print_universe(uint width, char * buffer, size_t buffer_len, bool * univers
     return buff_next;
 } 
 
+/*
+uint count_neighbors(const bool * const universe, locus l, uint width)
+{
+    uint    count=0;
+
+    // first top edge
+    if(l.row > 0) {
+        if(l.col > 0) {
+            if(universe[OFFSET(l,width)])
+        }
+    }
+
+    return count;
+}
+*/
 
 void release_universe(bool* u)
 {
