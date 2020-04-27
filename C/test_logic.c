@@ -268,15 +268,14 @@ int main()
    if (CUE_SUCCESS != CU_initialize_registry())
       return CU_get_error();
 
-   /* add a suite to the registry */
-   pSuite = CU_add_suite("Suite_1", init_suite1, clean_suite1);
+   /* add a suite to the registry - utility functions*/
+   pSuite = CU_add_suite("Utility Suite", init_suite1, clean_suite1);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
    }
 
    /* add the tests to the suite */
-   /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
    if ((NULL == CU_add_test(pSuite, "test of get_universe()", test_get_universe)) ||
        (NULL == CU_add_test(pSuite, "test of init_universe()", test_init_universe)) ||
        (NULL == CU_add_test(pSuite, "test of OFFSET() macro", test_OFFSET)) ||
