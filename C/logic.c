@@ -85,6 +85,8 @@ uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * u
     return print_len;
 }
 
+/* print all lines of the grid
+*/
 uint print_universe(uint width, char * buffer, size_t buffer_len, bool * universe)
 {
     uint    buff_next = 0;              // index of next byte in output buffer
