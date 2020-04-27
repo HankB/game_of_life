@@ -189,9 +189,21 @@ void test_print_line(void)
     CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
     CU_ASSERT_EQUAL(return_len, 8);
 
+    // print third row, exact buffer space
+    memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 2, buffer, 9, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
+    CU_ASSERT_EQUAL(return_len, 8);
+
     // print third row, insufficient buffer space
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 2, buffer, 6, universe);
+    return_len = print_line(3, 2, buffer, 8, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
+    CU_ASSERT_EQUAL(return_len, 8);
+
+    // print third row, insufficient buffer space
+    memset(buffer, ' ', buf_len);
+    return_len = print_line(3, 2, buffer, 7, universe);
     CU_ASSERT_STRING_EQUAL(buffer, "|X|_|\n");
     CU_ASSERT_EQUAL(return_len, 6);
     
@@ -209,6 +221,7 @@ void test_print_universe(void)
     bool * universe = get_universe(3);
 
     init_universe(universe, 3, disp);
+    memset(buffer, 'O', buf_len);
 
     return_len = print_universe(3, buffer, buf_len, universe);
     CU_ASSERT_STRING_EQUAL(buffer, test_str);
@@ -220,6 +233,7 @@ void test_print_universe(void)
     // depends on compiling with -fsanitize=address
     for(int i=0; i<10; i++) {
         return_len = print_universe(3, buffer+i, buf_len-i, universe);
+        memset(buffer, 'O', buf_len);
     }
 
     release_universe(universe);
