@@ -82,15 +82,20 @@ void test_OFFSET(void)
     CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 0);
     l.col = 1;
     CU_ASSERT(OFFSET(l, 3) == 1);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 1);
     l.col = 2;
     CU_ASSERT(OFFSET(l, 3) == 2);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 2);
     l.col = 0;
     l.row = 1;
     CU_ASSERT(OFFSET(l, 3) == 3);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 3);
     l.col = 1;
     CU_ASSERT(OFFSET(l, 3) == 4);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 4);
     l.col = l.row = 2;
     CU_ASSERT(OFFSET(l, 3) == 8);
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 8);
 }
 
 /* test initializer for universe
