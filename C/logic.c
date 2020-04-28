@@ -100,21 +100,38 @@ uint print_universe(uint width, char * buffer, size_t buffer_len, bool * univers
     return buff_next;
 } 
 
-/*
 uint count_neighbors(const bool * const universe, locus l, uint width)
 {
     uint    count=0;
 
-    // first top edge
-    if(l.row > 0) {
-        if(l.col > 0) {
-            if(universe[OFFSET(l,width)])
+    // Not on any edge
+    if(l.row > 0 && l.row < width-1) {
+        if(l.col > 0 && l.row < width-1) {
+            // row above
+            for(int col=l.col-1; col<=l.col+1; col++) {
+                if(universe[OFFSET_COORD(col, l.row-1,width)] == true) {
+                    count++;
+                //printf("%d, %d, -> %d\n", col, l.row-1,width);
+                }
+            }
+            // same row
+            if(universe[OFFSET_COORD(l.col-1, l.row,width)]) {
+                count++;
+            }
+            if(universe[OFFSET_COORD(l.col-1, l.row,width)]) {
+                count++;
+            }
+            // row below
+            for(int col=l.col-1; col<=l.col+1; col++) {
+                if(universe[OFFSET_COORD(col, l.row+1,width)]) {
+                    count++;
+                }
+            }
         }
     }
 
     return count;
 }
-*/
 
 void release_universe(bool* u)
 {

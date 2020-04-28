@@ -257,6 +257,25 @@ void test_release_universe(void)
     CU_ASSERT(universe == (bool *)0);
 }
 
+// Tests for core logic
+
+/* test code to count live neighbors.
+*/
+void test_count_neighbors(void)
+{
+    bool *  universe = get_universe(3);
+    locus   l = {1,1};
+    static const size_t buf_len = 33;
+    char    buffer[buf_len];
+
+    init_universe(universe, 3, disp);
+    print_universe(3, buffer, buf_len, universe);
+
+    uint count = count_neighbors(universe, l, 3);
+    printf("\n%s%d\n", buffer, count);
+    
+    release_universe(universe);
+}
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
@@ -297,6 +316,20 @@ int main()
         (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
         (NULL == CU_add_test(pSuite, "test of print_universe()", test_print_universe)) ||
         (NULL == CU_add_test(pSuite, "test of release_universe()", test_release_universe))
+       )
+   {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+   /* add a suite to the registry - core logic*/
+   pSuite = CU_add_suite("test Output", init_suite1, clean_suite1);
+   if (NULL == pSuite) {
+      CU_cleanup_registry();
+      return CU_get_error();
+   }
+
+    if ((NULL == CU_add_test(pSuite, "test of count_neighbors()", test_count_neighbors))
        )
    {
       CU_cleanup_registry();

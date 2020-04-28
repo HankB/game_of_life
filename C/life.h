@@ -17,3 +17,4 @@ int init_universe(bool * universe, uint dim, const locus coordinates[]);
 uint print_top(uint width, char * buffer, size_t buffer_len);
 uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * universe);
 uint print_universe(uint width, char * buffer, size_t buffer_len, bool * universe);
+uint count_neighbors(const bool * const universe, locus l, uint width);
