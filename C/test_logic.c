@@ -58,7 +58,7 @@ int clean_suite1(void)
  */
 void test_get_universe(void)
 {
-    bool * universe = get_universe(3);
+    bool * universe = get_universe(5);
 
     CU_ASSERT(universe != (bool *)0);
 
@@ -71,31 +71,50 @@ void test_get_universe(void)
 void test_OFFSET(void)
 {
     locus l = {0,0};
+    static const uint width=5;
 
     /* visual crutch ;)
-    |0|1|2|
-    |3|4|5|
-    |6|7|8|
+    | 0| 1| 2| 3| 4|
+    | 5| 6| 7| 8| 9|
+    |10|11|12|13|14|
+    |15|16|17|18|19|
+    |20|21|22|23|24|
     */
 
-    CU_ASSERT(OFFSET(l, 3) == 0);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 0);
+    CU_ASSERT(OFFSET(l, width) == 0);                   // (0,0)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 0);
+
     l.col = 1;
-    CU_ASSERT(OFFSET(l, 3) == 1);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 1);
+    CU_ASSERT(OFFSET(l, width) == 1);                       // (1,0)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 1);
+
     l.col = 2;
-    CU_ASSERT(OFFSET(l, 3) == 2);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 2);
+    CU_ASSERT(OFFSET(l, width) == 2);                       // (2,0)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 2);
+
     l.col = 0;
     l.row = 1;
-    CU_ASSERT(OFFSET(l, 3) == 3);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 3);
+    CU_ASSERT(OFFSET(l, width) == 5);                       // (0,1)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 5);
+
     l.col = 1;
-    CU_ASSERT(OFFSET(l, 3) == 4);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 4);
+    CU_ASSERT(OFFSET(l, width) == 6);                       // (1,1)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 6);
+
     l.col = l.row = 2;
-    CU_ASSERT(OFFSET(l, 3) == 8);
-    CU_ASSERT(OFFSET_COORD(l.col, l.row, 3) == 8);
+    CU_ASSERT(OFFSET(l, width) == 12);                      // (2,2)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 12);
+
+    l.col = 4,
+    l.row = 2;
+    CU_ASSERT(OFFSET(l, width) == 14);                      // (4,2)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 14);
+
+    l.col = 2,
+    l.row = 4;
+    //printf("%d, %d\n", OFFSET(l, width), OFFSET_COORD(l.col, l.row, width));
+    CU_ASSERT(OFFSET(l, width) == 22);                      // (2,4)
+    CU_ASSERT(OFFSET_COORD(l.col, l.row, width) == 22);
 }
 
 /* test initializer for universe
