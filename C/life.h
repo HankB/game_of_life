@@ -3,8 +3,8 @@ Header for functions shared between application and tests
 */
 
 typedef struct {
-    int row;
     int col;
+    int row;
 } locus;
 
 // calculate offset into universe from locus and dimension

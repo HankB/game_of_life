@@ -23,7 +23,6 @@ int init_universe(bool * universe, uint dim, const locus coordinates[])
     int     i = 0;
 
     while (coordinates[i].row >= 0 && coordinates[i].col >= 0) {
-        //printf("%d [%d][%d]\n", i, coordinates[i].row, coordinates[i].col);
         if (coordinates[i].row >= dim || coordinates[i].col >= dim) {
             return -1;
         }
@@ -56,7 +55,7 @@ uint print_line(uint width, uint row, char * buffer, size_t buffer_len, bool * u
     int     print_width = width;        // actual number of cells to print
     uint    print_len = print_width*2+2;  // length of string, null terminator not included
     uint    i;
-    locus   l = {row,0};
+    locus   l = {0, row,};
 
     // prevent buffer overrun
     while(print_len > buffer_len) {
