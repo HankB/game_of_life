@@ -9,7 +9,7 @@ typedef struct {
 
 // calculate offset into universe from locus and dimension
 #define OFFSET(loc,dim) (loc.row*dim + loc.col)
-#define OFFSET_COORD(col,row,dim) (row*dim + col)
+#define OFFSET_COORD(col,row,dim) ((row)*(dim) + (col))
 
 bool *get_universe(unsigned int dim);
 void release_universe(bool* u); 
