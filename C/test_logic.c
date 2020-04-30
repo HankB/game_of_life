@@ -120,41 +120,80 @@ void test_OFFSET(void)
 /* test initializer for universe
 */
 
-locus disp[] = {
+    /* visual crutch ;)
+    | 0| 1| 2| 3| 4|
+    | 5| 6| 7| 8| 9|
+    |10|11|12|13|14|
+    |15|16|17|18|19|
+    |20|21|22|23|24|
+    */
+
+locus disp_live[] = { // initial values to populate a grid (live cells)
+    {0, 2},
     {1, 0},
     {1, 1},
-    {0, 2},
     {2, 2},
-    {-1, 0}, // end of init list
-    {0, 0},  // start of entries to ID remaining cells
+    {3, 4},
+    {4, 0},
+    {4, 3},
+    {4, 4},
+    {-1, -1}, // end of init list
+};
+
+locus disp_dead[] = { // initial values for dead cells
+    {0, 0},  
     {0, 1},
+    {0, 3},
+    {0, 4},
+
     {1, 2},
+    {1, 3},
+    {1, 4},
+
     {2, 0},
     {2, 1},
+    {2, 3},
+    {2, 4},
+
+    {3, 0},
+    {3, 1},
+    {3, 2},
+    {3, 3},
+
+    {4, 1},
+    {4, 2},
+    {-1, -1},
 };
 
 void test_init_universe(void)
 {
-    bool * universe = get_universe(3);
+    static const uint width=5;
+    bool * universe = get_universe(width);
+    int     i = 0;
+    int     live_count;
 
-    int rc = init_universe(universe, 3, disp);
+    int rc = init_universe(universe, width, disp_live);
     CU_ASSERT(rc == 0);
-    CU_ASSERT(universe[OFFSET(disp[0],3)] == true);
-    CU_ASSERT(universe[OFFSET(disp[1],3)] == true);
-    CU_ASSERT(universe[OFFSET(disp[2],3)] == true);
+    while(disp_live[i].row >= 0) {
+        CU_ASSERT(universe[OFFSET(disp_live[i],width)] == true);
+        i++;
+    }
+    live_count = i;
 
-    for(int i=5; i<10; i++) {
-        CU_ASSERT(universe[OFFSET(disp[i],3)] == false);
+    i = 0;
+    while(disp_dead[i].row >= 0) {
+        CU_ASSERT(universe[OFFSET(disp_dead[i],width)] == false);
+        i++;
     }
 
     // and finally, count the true cells in universe
     int count=0;
-    for(int i=0; i<3*3; i++) {
+    for(i=0; i<width*width; i++) {
         if(universe[i]) {
             count++;
         }
     }
-    CU_ASSERT(count == 4);
+    CU_ASSERT(count == live_count);
 
     release_universe(universe);
 }
@@ -163,25 +202,29 @@ void test_init_universe(void)
 */
 void test_print_top(void)
 {
-    static const size_t buf_len = 10;
+    static const uint width=5;
+    static const size_t buf_len = width*2+3;
     char    buffer[buf_len];
     uint    return_len;
-    bool * universe = get_universe(3);
+    bool * universe = get_universe(width);
 
-    init_universe(universe, 3, disp);
+    init_universe(universe, width, disp_live);
     memset(buffer, ' ', buf_len);
 
-    return_len = print_top(3, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "_______\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_top(width, buffer, buf_len-2);
+    CU_ASSERT_STRING_EQUAL(buffer, "_________\n");
+    CU_ASSERT_EQUAL(return_len, buf_len-3);
+    memset(buffer, ' ', buf_len);
 
-    return_len = print_top(5, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "________\n");
-    CU_ASSERT_EQUAL(return_len, 9);
+    return_len = print_top(width, buffer, buf_len);
+    //printf(">%s< %d %ld\n", buffer, return_len, strlen(buffer));
+    CU_ASSERT_STRING_EQUAL(buffer, "___________\n");
+    CU_ASSERT_EQUAL(return_len, buf_len-1);
+    memset(buffer, ' ', buf_len);
 
-    return_len = print_top(4, buffer, buf_len);
-    CU_ASSERT_STRING_EQUAL(buffer, "________\n");
-    CU_ASSERT_EQUAL(return_len, 9);
+    return_len = print_top(width, buffer, buf_len);
+    CU_ASSERT_STRING_EQUAL(buffer, "___________\n");
+    CU_ASSERT_EQUAL(return_len, buf_len-1);
 
     release_universe(universe);
 }
@@ -190,48 +233,49 @@ void test_print_top(void)
 */
 void test_print_line(void)
 {
-    static const size_t buf_len = 10;
+    static const uint width=5;
+    static const size_t buf_len = width*2+3;
     char buffer[buf_len];
     uint    return_len;
-    bool * universe = get_universe(3);
+    bool * universe = get_universe(width);
 
-     init_universe(universe, 3, disp);
+    init_universe(universe, width, disp_live);
 
    // print first row
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 0, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_line(width, 0, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|_|X|\n");
+    CU_ASSERT_EQUAL(return_len, width*2+2);
 
     // print second row
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 1, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_line(width, 1, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|_|X|_|_|_|\n");
+    CU_ASSERT_EQUAL(return_len, width*2+2);
 
     // print third row
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 2, buffer, buf_len, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_line(width, 2, buffer, buf_len, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|_|_|\n");
+    CU_ASSERT_EQUAL(return_len, width*2+2);
 
     // print third row, exact buffer space
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 2, buffer, 9, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_line(width, 2, buffer, width*2+3, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|_|_|\n");
+    CU_ASSERT_EQUAL(return_len, width*2+2);
 
     // print third row, insufficient buffer space
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 2, buffer, 8, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
-    CU_ASSERT_EQUAL(return_len, 8);
+    return_len = print_line(width, 2, buffer, width*2, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|_|\n");
+    CU_ASSERT_EQUAL(return_len, width*2);
 
     // print third row, insufficient buffer space
     memset(buffer, ' ', buf_len);
-    return_len = print_line(3, 2, buffer, 7, universe);
-    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|\n");
-    CU_ASSERT_EQUAL(return_len, 6);
+    return_len = print_line(width, 2, buffer, width*2-1, universe);
+    CU_ASSERT_STRING_EQUAL(buffer, "|X|_|X|\n");
+    CU_ASSERT_EQUAL(return_len, width*2-2);
     
     release_universe(universe);
 }
@@ -240,25 +284,32 @@ void test_print_line(void)
 */
 void test_print_universe(void)
 {
-    static const size_t buf_len = 33;
+    static const uint width=5;
+    static const size_t buf_len = (width+1)*(width+1)*2+3;
     char buffer[buf_len];
     uint    return_len;
-    static const char* test_str = "_______\n|_|X|_|\n|_|X|_|\n|X|_|X|\n";
-    bool * universe = get_universe(3);
+    static const char* test_str = "___________\n"
+"|_|X|_|_|X|\n"
+"|_|X|_|_|_|\n"
+"|X|_|X|_|_|\n"
+"|_|_|_|_|X|\n"
+"|_|_|_|X|X|\n";
 
-    init_universe(universe, 3, disp);
+    bool * universe = get_universe(width);
+
+    init_universe(universe, width, disp_live);
     memset(buffer, 'O', buf_len);
 
-    return_len = print_universe(3, buffer, buf_len, universe);
+    return_len = print_universe(width, buffer, buf_len, universe);
     CU_ASSERT_STRING_EQUAL(buffer, test_str);
-    CU_ASSERT_EQUAL(return_len, 32);
+    CU_ASSERT_EQUAL(return_len, 72);
 
 
 
     // test for memory bounds errors
     // depends on compiling with -fsanitize=address
     for(int i=0; i<10; i++) {
-        return_len = print_universe(3, buffer+i, buf_len-i, universe);
+        return_len = print_universe(width, buffer+i, buf_len-i, universe);
         memset(buffer, 'O', buf_len);
     }
 
@@ -269,7 +320,8 @@ void test_print_universe(void)
 */
 void test_release_universe(void)
 {
-    bool * universe = get_universe(3);
+    static const uint width=5;
+    bool * universe = get_universe(width);
 
     release_universe(universe);
     universe = 0;
@@ -282,17 +334,23 @@ void test_release_universe(void)
 */
 void test_count_neighbors(void)
 {
-    bool *  universe = get_universe(3);
+    static const uint width=5;
+    bool *  universe = get_universe(width);
     locus   l = {1,1};
-    static const size_t buf_len = 33;
+
+    init_universe(universe, width, disp_live);
+
+    uint count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 3);
+
+//#define NEED_OUTPUT 1
+#if NEED_OUTPUT
+    static const size_t buf_len = (width+1)*(width+1)*2+3;
     char    buffer[buf_len];
-
-    init_universe(universe, 3, disp);
-    print_universe(3, buffer, buf_len, universe);
-
-    uint count = count_neighbors(universe, l, 3);
+    print_universe(width, buffer, buf_len, universe);
     printf("\n%s%d\n", buffer, count);
-    
+#endif
+
     release_universe(universe);
 }
 /* The main() function for setting up and running the tests.
@@ -308,7 +366,7 @@ int main()
       return CU_get_error();
 
    /* add a suite to the registry - utility functions*/
-   pSuite = CU_add_suite("Test Utility", init_suite1, clean_suite1);
+   pSuite = CU_add_suite("test Utility", init_suite1, clean_suite1);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
@@ -330,7 +388,7 @@ int main()
       CU_cleanup_registry();
       return CU_get_error();
    }
-
+   
     if ((NULL == CU_add_test(pSuite, "test of print_top()", test_print_top)) ||
         (NULL == CU_add_test(pSuite, "test of print_line()", test_print_line)) ||
         (NULL == CU_add_test(pSuite, "test of print_universe()", test_print_universe)) ||
@@ -342,12 +400,11 @@ int main()
    }
 
    /* add a suite to the registry - core logic*/
-   pSuite = CU_add_suite("test Output", init_suite1, clean_suite1);
+   pSuite = CU_add_suite("test core logic", init_suite1, clean_suite1);
    if (NULL == pSuite) {
       CU_cleanup_registry();
       return CU_get_error();
    }
-
     if ((NULL == CU_add_test(pSuite, "test of count_neighbors()", test_count_neighbors))
        )
    {
