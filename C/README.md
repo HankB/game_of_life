@@ -41,6 +41,18 @@ valgrind ./life
 valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
 ```
 
+### Test errata
+
+The `valgrind` invocation produces the following warning.
+
+```text
+==23579== 
+==23579==ASan runtime does not come first in initial library list; you should either link runtime to your application or manually preload it with LD_PRELOAD.
+==23579== 
+```
+
+A few simple minded tries to resolve this were not successful. Since array bounds violations were detected, this warning was not pursued. (Pull requests to fix this welcome!)
+
 ## Release build
 
 It is necessary to `make clean` between test and release builds because `logic.o` is built with different options for testing and the `Makefile` is not sophisticated enough to automate this.
