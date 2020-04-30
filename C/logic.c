@@ -100,36 +100,48 @@ uint print_universe(uint width, char * buffer, size_t buffer_len, bool * univers
     return buff_next;
 } 
 
+/* Implicitly count live neighbors
+* 
+* gets sticky with edge and corner cases. But there are precisely
+* eight neighbors to check. Longest possible loop is 3 so just
+* dispense with that and examine each neighbor individually 
+*/
 uint count_neighbors(const bool * const universe, locus l, uint width)
 {
     uint    count=0;
 
-    // Not on any edge
-    if(l.row > 0 && l.row < width-1) {
-        if(l.col > 0 && l.row < width-1) {
-            // row above
-            for(int col=l.col-1; col<=l.col+1; col++) {
-                if(universe[OFFSET_COORD(col, l.row-1,width)] == true) {
-                    count++;
-                //printf("%d, %d, -> %d\n", col, l.row-1,width);
-                }
-            }
-            // same row
-            if(universe[OFFSET_COORD(l.col-1, l.row,width)]) {
-                count++;
-            }
-            if(universe[OFFSET_COORD(l.col-1, l.row,width)]) {
-                count++;
-            }
-            // row below
-            for(int col=l.col-1; col<=l.col+1; col++) {
-                if(universe[OFFSET_COORD(col, l.row+1,width)]) {
-                    count++;
-                }
-            }
-        }
-    }
-
+    // upper left
+    if(l.col > 0 && l.row > 0 &&
+        universe[OFFSET_COORD(l.col-1, l.row-1,width)] == true )
+        count++;
+    // upper
+    if(l.row > 0 &&
+        universe[OFFSET_COORD(l.col, l.row-1,width)] == true )
+        count++;
+    // upper right
+    if(l.col < width-2 && l.row > 0 &&
+        universe[OFFSET_COORD(l.col+1, l.row-1,width)] == true )
+        count++;
+    // left
+    if(l.col > 0  &&
+        universe[OFFSET_COORD(l.col-1, l.row,width)] == true )
+        count++;
+    // right
+    if(l.col < width-2  &&
+        universe[OFFSET_COORD(l.col+1, l.row,width)] == true )
+        count++;
+    // lower left
+    if(l.col > 0 && l.row < width-2 &&
+        universe[OFFSET_COORD(l.col-1, l.row+1,width)] == true )
+        count++;
+    // lower
+    if(l.row < width-2 &&
+        universe[OFFSET_COORD(l.col, l.row+1,width)] == true )
+        count++;
+    // lower right
+    if(l.col < width-2 && l.row < width-2 &&
+        universe[OFFSET_COORD(l.col+1, l.row+1,width)] == true )
+        count++;
     return count;
 }
 
