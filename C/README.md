@@ -55,7 +55,7 @@ A few simple minded tries to resolve this were not successful. Since array bound
 
 ## Release build
 
-It is necessary to `make clean` between test and release builds because `logic.o` is built with different options for testing and the `Makefile` is not sophisticated enough to automate this.
+It is necessary to `make clean` between test and release builds because `logic.o` is built with different options for testing and the `Makefile` is not sophisticated enough to automate this. (Pull requests to fix this welcome!)
 
 ```text
 make clean
