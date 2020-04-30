@@ -18,6 +18,7 @@ Incomplete. Done:
 
 * create/init universe.
 * Output universe.
+* count neighbors (started)
 
 Needed:
 
