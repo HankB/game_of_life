@@ -139,6 +139,14 @@ locus disp_live[] = { // initial values to populate a grid (live cells)
     {4, 4},
     {-1, -1}, // end of init list
 };
+/* 
+___________
+|_|X|_|_|X|
+|_|X|_|_|_|
+|X|_|X|_|_|
+|_|_|_|_|X|
+|_|_|_|X|X|
+*/
 
 locus disp_dead[] = { // initial values for dead cells
     {0, 0},  
@@ -340,8 +348,47 @@ void test_count_neighbors(void)
 
     init_universe(universe, width, disp_live);
 
+    // first some tests with univers populated with disp_live[]
     uint count = count_neighbors(universe, l, width);
     CU_ASSERT_EQUAL(count, 3);
+
+    l.row = 0; // (1,0)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 1);
+
+    // now test four corners
+    l.col = 0; // (0,0)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 2);
+
+    l.col = width-1; // (0,width-1)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 0);
+
+    l.row = width-1; // (width-1,width-1)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 2);
+
+    l.col = 0; // (0,width-1)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 0);
+
+// test four edges 
+    l.col = 2; l.row = 0; // (2,0)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 2);
+
+    l.row = 4; // (2,4)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 1);
+
+    l.col = 0; l.row = 2; // (0,2)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 1);
+
+    l.col = 4; // (4,2)
+    count = count_neighbors(universe, l, width);
+    CU_ASSERT_EQUAL(count, 1);
 
 //#define NEED_OUTPUT 1
 #if NEED_OUTPUT
@@ -350,6 +397,35 @@ void test_count_neighbors(void)
     print_universe(width, buffer, buf_len, universe);
     printf("\n%s%d\n", buffer, count);
 #endif
+
+    release_universe(universe); // finished with this universe
+
+// Create a grid with one live cell in the middle and test all cells around it.
+
+    locus disp_center[] = { // initial values to populate a grid (live cells)
+        {2, 2},
+        {-1, -1},
+    };
+
+    universe = get_universe(width);
+    int rc = init_universe(universe, width, disp_center);
+    CU_ASSERT(rc == 0);
+
+    locus t[] = {
+        {1,1},
+        {2,1},
+        {3,1},
+        {2,1},
+        {2,3},
+        {3,1},
+        {1,3},
+        {2,3},
+        {3,3},
+    };
+
+    for(int i=0; i<(sizeof t)/sizeof(t[0]); i++) {
+        CU_ASSERT_EQUAL(count_neighbors(universe, t[i], width), 1);
+    }
 
     release_universe(universe);
 }
