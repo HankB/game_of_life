@@ -2,9 +2,9 @@
 
 ## Play Strategy
 
-The "Universe" in which the game plays out will be a fixed two dimensional array of boolean values that indicate occupied or empty. Two copies of the universe are kept. One with present state and one with next state.
+The "Universe" in which the game plays out will be a fixed two dimensional array of boolean values that indicate occupied or empty. (This is conceptually two dimensional. It is a actually a single dimension array which is mapped to two dimensions.) Two copies of the universe are kept. One with present state and one with next state.
 
-For locations on the edge and corners, out of bounds locations will be considered to be empty.
+For locations on the edge and corners, out of bounds locations will be considered to be empty.real Game of Life plays out on a two dimensional infinite grid. At the edges this representation will not behave similarly to the Real Thing. Edge cases (pun not intended, but works) make the logic of counting neighbors nasty.
 
 ## Development Plan
 
