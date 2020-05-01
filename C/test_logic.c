@@ -450,6 +450,33 @@ void test_count_neighbors(void)
 
     release_universe(universe);
 }
+
+
+void test_calc_next_gen(void)
+{
+    static const uint width=5;
+    bool *  u1 = get_universe(width);
+    bool *  u2 = get_universe(width);
+
+    int rc = init_universe(u1, width, disp_live);
+    CU_ASSERT(rc == 0);
+
+    int count = calc_next_gen(u1, u2, width);
+
+#define NEED_OUTPUT 1
+#if NEED_OUTPUT
+    static const size_t buf_len = (width+1)*(width+1)*2+3;
+    char    buffer[buf_len];
+    print_universe(width, buffer, buf_len, u1);
+    printf("\n%s%d\n", buffer, count);
+    print_universe(width, buffer, buf_len, u2);
+    printf("\n%s%d\n", buffer, count);
+#endif
+
+    release_universe(u1);
+    release_universe(u2);
+}
+
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
@@ -502,7 +529,8 @@ int main()
       CU_cleanup_registry();
       return CU_get_error();
    }
-    if ((NULL == CU_add_test(pSuite, "test of count_neighbors()", test_count_neighbors))
+    if ((NULL == CU_add_test(pSuite, "test of count_neighbors()", test_count_neighbors)) ||
+        (NULL == CU_add_test(pSuite, "test of test_calc_next_gen()", test_calc_next_gen)) 
        )
    {
       CU_cleanup_registry();
