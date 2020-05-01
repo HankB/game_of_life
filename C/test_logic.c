@@ -390,6 +390,27 @@ void test_count_neighbors(void)
     count = count_neighbors(universe, l, width);
     CU_ASSERT_EQUAL(count, 1);
 
+    // Complete test of dsp_live grid
+
+    // expected results, by row
+
+    uint    disp_live_counts[] = {
+        2, 1, 2, 1, 0,
+        3, 3, 3, 2, 1,
+        1, 3, 1, 2, 1,
+        1, 2, 2, 4, 2,
+        0, 0, 1, 2, 2,
+    };
+
+    // check all cells
+    for(int i=0; i<width*width; i++) {
+        l.col = i%width;
+        l.row = i/width;
+        uint    count = count_neighbors(universe, l, width);
+        CU_ASSERT_EQUAL(count, disp_live_counts[i]);
+    }
+
+
 //#define NEED_OUTPUT 1
 #if NEED_OUTPUT
     static const size_t buf_len = (width+1)*(width+1)*2+3;
