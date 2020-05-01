@@ -119,7 +119,7 @@ uint count_neighbors(const bool * const universe, locus l, uint width)
         universe[OFFSET_COORD(l.col, l.row-1,width)] == true )
         count++;
     // upper right
-    if(l.col < width-2 && l.row > 0 &&
+    if(l.col < width-1 && l.row > 0 &&
         universe[OFFSET_COORD(l.col+1, l.row-1,width)] == true )
         count++;
     // left
@@ -127,19 +127,19 @@ uint count_neighbors(const bool * const universe, locus l, uint width)
         universe[OFFSET_COORD(l.col-1, l.row,width)] == true )
         count++;
     // right
-    if(l.col < width-2  &&
+    if(l.col < width-1  &&
         universe[OFFSET_COORD(l.col+1, l.row,width)] == true )
         count++;
     // lower left
-    if(l.col > 0 && l.row < width-2 &&
+    if(l.col > 0 && l.row < width-1 &&
         universe[OFFSET_COORD(l.col-1, l.row+1,width)] == true )
         count++;
     // lower
-    if(l.row < width-2 &&
+    if(l.row < width-1 &&
         universe[OFFSET_COORD(l.col, l.row+1,width)] == true )
         count++;
     // lower right
-    if(l.col < width-2 && l.row < width-2 &&
+    if(l.col < width-1 && l.row < width-1 &&
         universe[OFFSET_COORD(l.col+1, l.row+1,width)] == true )
         count++;
     return count;
