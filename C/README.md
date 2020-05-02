@@ -14,16 +14,7 @@ Use a `Makefile` to automate biulding and testing.
 
 ## Status
 
-Incomplete. Done:
-
-* create/init universe.
-* Output universe.
-* count neighbors (started)
-
-Needed:
-
-* Count neighbors.
-* Iterate over universe and update.
+Complete (as is.) Timing delay between generations is hard coded as are the initial conditions. Output is via text to a terminal. This is useful to explore the problem and work will continue with a C++ variant.
 
 ## Testing
 
