@@ -158,7 +158,7 @@ int calc_next_gen(const bool * const u_in, bool * u_out, uint width )
     for(l.col=0; l.col<width; l.col++) {
         for(l.row=0; l.row<width; l.row++) {
             neighbor_count = count_neighbors(u_in, l, width);
-            printf("(%d,%d) => %d\n", l.col, l.row, neighbor_count);
+            //printf("(%d,%d) => %d\n", l.col, l.row, neighbor_count);
             if(u_in[OFFSET(l, width)]) { //live cell?
                 if((neighbor_count == 3 || neighbor_count == 2)) { // remain live?
                     u_out[OFFSET(l, width)] = true;
