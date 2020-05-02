@@ -473,6 +473,23 @@ void test_calc_next_gen(void)
     printf("\n%s%d\n", buffer, count);
 #endif
 
+static const char* gen_1 = 
+"___________\n"
+"|_|_|_|_|_|\n"
+"|X|X|X|_|_|\n"
+"|_|X|_|_|_|\n"
+"|_|_|_|_|X|\n"
+"|_|_|_|X|X|\n";
+
+    print_universe(width, buffer, buf_len, u2);
+    CU_ASSERT_STRING_EQUAL(buffer, gen_1);
+
+    count = calc_next_gen(u2, u1, width);
+    print_universe(width, buffer, buf_len, u1);
+    CU_ASSERT_STRING_EQUAL(buffer, gen_1);
+    printf("\n%s%d\n", buffer, count);
+
+
     release_universe(u1);
     release_universe(u2);
 }
