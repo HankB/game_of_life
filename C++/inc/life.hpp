@@ -7,3 +7,10 @@ enum  cell_state {
     dieing,         // will die and be removed
 };
 
+class Cell {
+    cell_state      state;
+public:
+    void set_state(cell_state s) {state=s;}
+    cell_state get_state(void) {return state;}
+};
+
