@@ -3,13 +3,71 @@
 
 #include "life.hpp"
 
+// construct and return state as constructed.
 int construct_destroy_cell(void) 
 {
-    Cell    c;
-    c.set_state(live);
+    Cell    c(0,0);
     return c.get_state();
 }
 
-TEST_CASE( "constructor/destructor for cell", "[]" ) {
-    REQUIRE( construct_destroy_cell() == live );
+// construct and progress to live
+int construct_vivify_cell(void) 
+{
+    Cell    c(0,0);
+    c.vivify();
+    return c.get_state();
+}
+
+// construct and set to dying
+int construct_kill_cell(void) 
+{
+    Cell    c(0,0);
+    c.kill();
+    return c.get_state();
+}
+
+// is_live at construction
+bool construct_is_live(void)
+{
+    Cell    c(0,0);
+    return c.is_live();
+}
+
+TEST_CASE( "constructor/destructor for cell", "[ctor/dtor]" ) {
+    REQUIRE( construct_destroy_cell() == born );
+    REQUIRE( construct_vivify_cell() == live );
+    REQUIRE( construct_kill_cell() == dying );
+    REQUIRE( construct_is_live() == false );
+}
+
+// testing adjacency 
+
+// report if two cells are adjacent
+bool check_is_next_to(const Cell a, const Cell b)
+{
+    return a.is_next_to(b);
+}
+
+TEST_CASE( "is cell next to another", "[adjacency]" ) {
+    // all adjacent positions
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(0,0)) == true );
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(1,0)) == true );
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(2,0)) == true );
+
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(0,1)) == true );
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(2,1)) == true );
+
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(0,2)) == true );
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(1,2)) == true );
+    REQUIRE( check_is_next_to(Cell(1,1), Cell(2,2)) == true );
+
+    // non-adjacent positions, corners and edges
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(0,0)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(0,2)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(0,4)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(2,4)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(4,4)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(4,2)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(4,0)) == false );
+    REQUIRE( check_is_next_to(Cell(2,2), Cell(2,4)) == false );
 }
