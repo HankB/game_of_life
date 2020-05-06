@@ -30,12 +30,10 @@ public:
     cell_state get_state(void) const { return state; }
     bool is_live(void) { return state == live || state == dying; }
     bool is_next_to(const Cell c) const { return abs(c.x - x) <= 1 && abs(c.y - y) <= 1; }
-    /*std::ostream &operator<<(std::ostream &str, const Cell &cls)
-    {
-        str << cls.x << " " << cls.y;
-    }*/
     friend Universe;
 };
+
+std::ostream& operator << (std::ostream & str, const Cell& c);
 
 class Universe
 {
@@ -50,11 +48,12 @@ public:
         universe.push_back(Cell(x, y));
         return cell_count();
     }
+
     void dump(void)
     {
         std::list<Cell>::iterator c;
         for (c = universe.begin(); c != universe.end(); c++)
-            std::cout << (*c).x << ", " << (*c).y << std::endl;
+            std::cout << (*c) << std::endl;
     }
 };
 #endif // __LIFE_H_INCLUDED__

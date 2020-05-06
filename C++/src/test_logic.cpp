@@ -82,19 +82,12 @@ int construct_destroy_universe(void)
     return u.cell_count();
 }
 
-std::ostream& operator << (std::ostream & str, const Cell& c)
-{
-    str << c.get_x() << " " << c.get_y() << std::endl;
-    return str;
-}
-
 int add_cell_universe(int cells)
 {
     Universe u = Universe();
     for (int i = 0; i < cells; i++)
     {
         u.add_cell(i, 0);
-        //std::cout << 
     }
     //u.dump();
     return u.cell_count();
