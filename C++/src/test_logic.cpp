@@ -1,4 +1,3 @@
-#include <iostream>
 #include <catch.hpp>
 
 #include "life.hpp"
@@ -72,4 +71,38 @@ TEST_CASE("is cell next to another", "[adjacency]")
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(4, 2)) == false);
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(4, 0)) == false);
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(2, 4)) == false);
+}
+
+// build and test the universe
+
+// construct and return state as constructed.
+int construct_destroy_universe(void)
+{
+    Universe u = Universe();
+    return u.cell_count();
+}
+
+std::ostream& operator << (std::ostream & str, const Cell& c)
+{
+    str << c.get_x() << " " << c.get_y() << std::endl;
+    return str;
+}
+
+int add_cell_universe(int cells)
+{
+    Universe u = Universe();
+    for (int i = 0; i < cells; i++)
+    {
+        u.add_cell(i, 0);
+        //std::cout << 
+    }
+    //u.dump();
+    return u.cell_count();
+}
+
+TEST_CASE("constructor/destructor for Universe", "[Universe-ctor/dtor]")
+{
+    REQUIRE(construct_destroy_universe() == 0);
+    REQUIRE(add_cell_universe(1) == 1);
+    REQUIRE(add_cell_universe(2) == 2);
 }
