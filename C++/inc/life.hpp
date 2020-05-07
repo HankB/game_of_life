@@ -29,8 +29,7 @@ public:
     void kill() { state = dying; }
     cell_state get_state(void) const { return state; }
     bool is_live(void) { return state == live || state == dying; }
-    bool is_next_to(const Cell c) const { (abs(c.x - x) <= 1 && abs(c.y - y) <= 1) &&
-                                          c.x != x &&c.y != }
+    bool is_next_to(const Cell c) const;
     friend Universe;
 };
 
@@ -45,11 +44,6 @@ public:
     ~Universe(void) {}
     int cell_count(void) { return universe.size(); }
     int add_cell(int x, int y);
-    void dump(void)
-    {
-        std::list<Cell>::iterator c;
-        for (c = universe.begin(); c != universe.end(); c++)
-            std::cout << (*c) << std::endl;
-    }
+    void dump(void);
 };
 #endif // __LIFE_H_INCLUDED__
