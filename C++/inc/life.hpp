@@ -33,7 +33,7 @@ public:
     friend Universe;
 };
 
-std::ostream& operator << (std::ostream & str, const Cell& c);
+std::ostream &operator<<(std::ostream &str, const Cell &c);
 
 class Universe
 {
@@ -50,6 +50,5 @@ public:
         for (c = universe.begin(); c != universe.end(); c++)
             std::cout << (*c) << std::endl;
     }
-
 };
 #endif // __LIFE_H_INCLUDED__
