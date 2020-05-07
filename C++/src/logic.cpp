@@ -16,9 +16,9 @@ bool Cell::is_next_to(const Cell c) const
         return (abs(c.x - x) <= 1 && abs(c.y - y) <= 1);
 }
 
-void Universe::dump(void)
+void Universe::dump(void) const
 {
-    std::list<Cell>::iterator c;
+    std::list<Cell>::const_iterator c;
     for (c = universe.begin(); c != universe.end(); c++)
         std::cout << (*c) << std::endl;
 }

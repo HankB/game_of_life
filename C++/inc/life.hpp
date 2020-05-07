@@ -44,6 +44,7 @@ public:
     ~Universe(void) {}
     int cell_count(void) { return universe.size(); }
     int add_cell(int x, int y);
-    void dump(void);
+    void dump(void) const;
+    uint count_neighbors(const Cell c) const;
 };
 #endif // __LIFE_H_INCLUDED__
