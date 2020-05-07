@@ -22,3 +22,15 @@ void Universe::dump(void) const
     for (c = universe.begin(); c != universe.end(); c++)
         std::cout << (*c) << std::endl;
 }
+
+uint Universe::count_neighbors(const Cell c) const
+{
+    uint count = 0;
+    std::list<Cell>::const_iterator n;
+
+    for (n = universe.begin(); n != universe.end(); n++)
+        if (c.is_next_to(*n))
+            count++;
+
+    return count;
+}

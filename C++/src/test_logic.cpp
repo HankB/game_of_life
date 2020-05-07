@@ -102,3 +102,28 @@ TEST_CASE("constructor/destructor for Universe", "[Universe-ctor/dtor]")
     REQUIRE(add_cell_universe(1) == 1);
     REQUIRE(add_cell_universe(2) == 2);
 }
+
+// test neighbor count, count neighbors for coords[check]
+int count_neighbor_cells(int coords[][2], uint count, uint check)
+{
+    Universe u = Universe();
+    Cell c(coords[check][0], coords[check][1]);
+
+    for (uint i = 0; i < count; i++)
+        u.add_cell(coords[0][i], coords[1][i]);
+
+    //u.dump();
+    return u.count_neighbors(c);
+}
+
+TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
+{
+    int case0[][2] = {{0, 0}, {0, 1}};
+    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0) == 1);
+    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 1) == 1);
+
+    int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0) == 1);
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 1) == 2);
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 2) == 1);
+}
