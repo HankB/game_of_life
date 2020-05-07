@@ -104,15 +104,16 @@ TEST_CASE("constructor/destructor for Universe", "[Universe-ctor/dtor]")
 }
 
 // test neighbor count, count neighbors for coords[check]
-int count_neighbor_cells(int coords[][2], uint count, uint check)
+int count_neighbor_cells(int coords[][2], uint count, int check_x, int check_y)
 {
     Universe u = Universe();
-    Cell c(coords[check][0], coords[check][1]);
+    Cell c(check_x, check_y);
 
     for (uint i = 0; i < count; i++)
         u.add_cell(coords[0][i], coords[1][i]);
 
     //u.dump();
+    //std::cout << "T " << c << std::endl;
     return u.count_neighbors(c);
 }
 
