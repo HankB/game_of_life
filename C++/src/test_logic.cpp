@@ -110,7 +110,7 @@ int count_neighbor_cells(int coords[][2], uint count, int check_x, int check_y)
     Cell c(check_x, check_y);
 
     for (uint i = 0; i < count; i++)
-        u.add_cell(coords[0][i], coords[1][i]);
+        u.add_cell(coords[i][0], coords[i][1]);
 
     //u.dump();
     //std::cout << "T " << c << std::endl;
