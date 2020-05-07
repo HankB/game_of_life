@@ -32,7 +32,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O0 -ggdb -Wall -std=c++11 ")
 
 # sources for test executable
 add_executable(test_logic 
-    src/test_logic.cpp src/catch2_Main.cpp src/util.cpp)
+    src/test_logic.cpp src/catch2_Main.cpp src/util.cpp src//logic.cpp)
 
 
 

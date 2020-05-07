@@ -43,17 +43,13 @@ public:
     Universe(void) : universe() {}
     ~Universe(void) {}
     int cell_count(void) { return universe.size(); }
-    int add_cell(int x, int y)
-    {
-        universe.push_back(Cell(x, y));
-        return cell_count();
-    }
-
+    int add_cell(int x, int y);
     void dump(void)
     {
         std::list<Cell>::iterator c;
         for (c = universe.begin(); c != universe.end(); c++)
             std::cout << (*c) << std::endl;
     }
+
 };
 #endif // __LIFE_H_INCLUDED__
