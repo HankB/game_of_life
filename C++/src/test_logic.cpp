@@ -71,6 +71,9 @@ TEST_CASE("is cell next to another", "[adjacency]")
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(4, 2)) == false);
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(4, 0)) == false);
     REQUIRE(check_is_next_to(Cell(2, 2), Cell(2, 4)) == false);
+
+    // same cell
+    REQUIRE(check_is_next_to(Cell(2, 2), Cell(2, 2)) == false);
 }
 
 // build and test the universe

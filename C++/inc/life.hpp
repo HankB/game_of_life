@@ -29,7 +29,8 @@ public:
     void kill() { state = dying; }
     cell_state get_state(void) const { return state; }
     bool is_live(void) { return state == live || state == dying; }
-    bool is_next_to(const Cell c) const { return abs(c.x - x) <= 1 && abs(c.y - y) <= 1; }
+    bool is_next_to(const Cell c) const { (abs(c.x - x) <= 1 && abs(c.y - y) <= 1) &&
+                                          c.x != x &&c.y != }
     friend Universe;
 };
 
