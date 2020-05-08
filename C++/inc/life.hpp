@@ -42,7 +42,7 @@ class Universe
 public:
     Universe(void) : universe() {}
     ~Universe(void) {}
-    int cell_count(void) { return universe.size(); }
+    uint cell_count(void) { return universe.size(); }
     int add_cell(int x, int y);
     void dump(void) const;
     uint count_neighbors(const Cell c) const;
