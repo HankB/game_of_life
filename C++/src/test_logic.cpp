@@ -112,6 +112,8 @@ int count_neighbor_cells(int coords[][2], uint count, int check_x, int check_y)
     for (uint i = 0; i < count; i++)
         u.add_cell(coords[i][0], coords[i][1]);
 
+    // verify that cells loaded
+    REQUIRE(count == u.cell_count());
     //u.dump();
     //std::cout << "T " << c << std::endl;
     return u.count_neighbors(c);
