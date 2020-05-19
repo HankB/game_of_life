@@ -126,8 +126,8 @@ TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
     |X
     |X 
      - */
-    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0,0) == 1);
-    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0,1) == 1);
+    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 0) == 1);
+    REQUIRE(count_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 1) == 1);
 
     /*
     |X
@@ -135,9 +135,9 @@ TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
     |X 
      - */
     int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
-    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0,0) == 1);
-    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0,1) == 2);
-    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0,2) == 1);
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 0) == 1);
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 1) == 2);
+    REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 2) == 1);
 
     // tests from empty adjacent cells
     /*
