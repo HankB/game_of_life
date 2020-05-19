@@ -12,7 +12,7 @@ A crude text mode version written in C has a primary drawback that it is not inf
 The central data structure is a cell. Each cell has coordinates that icentify its location in the grid and a state. The following states describe each cell.
 
 * `live` - A cell that came into being in a previous iteration and met the requirements to remain alive.
-* `dieing` - A cell that was previously dead but has met the rewuirements to become live in this iteration. In this iteration, this cell "counts" bu will be removed before the next iteration.
+* `dieing` - A cell that was previously live but has not met the requirements to remain alive in this iteration. In this iteration, this cell "counts" but will be removed before the next iteration.
 * `born` - this cell was not live but has met the requirements to become live and will be live in the next iteration.
 
 Processing will occur in two passes.
