@@ -34,3 +34,43 @@ uint Universe::count_neighbors(const Cell c) const
 
     return count;
 }
+
+/* Evaluate all live cells in the grid. Count live neighbors and determine 
+* if the cell lives or dies.
+*  Return the number of remaining live cells
+*/
+
+uint Universe::evaluate_live_cells(void)
+{
+    std::list<Cell>::iterator c;
+    uint live_count = 0;
+
+    for (c = universe.begin(); c != universe.end(); c++)
+    {
+        uint neighbor_count = count_neighbors(*c);
+        //std::cout << std::endl << (*c) << " count >" << neighbor_count << std::endl;
+        if(neighbor_count <= 1 || neighbor_count >= 4)
+            (*c).kill();
+        else
+            live_count++;
+    }
+    return live_count;
+}
+
+/* Evaluate all empty cells next to live cells in the grid. 
+* 1) count live neighbors and determine if the cell should come
+* alive.
+*  Return the number of newly live cells.
+*/
+
+uint Universe::evaluate_empty_neighbors(void)
+{
+    std::list<Cell>::iterator c;
+    uint vivify_count = 0;
+
+    for (c = universe.begin(); c != universe.end(); c++)
+    {
+        // really need a find_cell() member function here.
+    }
+    return vivify_count;
+}
