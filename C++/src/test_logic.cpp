@@ -162,3 +162,43 @@ TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
 
     REQUIRE(count_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == 0);
 }
+
+int count_evaluate_live_cells(int coords[][2], uint count)
+{
+    Universe u = Universe();
+    uint live_count;
+
+    for (uint i = 0; i < count; i++)
+        u.add_cell(coords[i][0], coords[i][1]);
+
+    // verify that cells loaded
+    REQUIRE(count == u.cell_count());
+    // evaluate which ones remain
+    live_count = u.evaluate_live_cells();
+
+    return live_count;
+}
+
+TEST_CASE("evaluates in Universe", "[Universe-process-live]")
+{
+    int case0[][2] = {{0, 0}, {0, 1}};
+    /*
+    |X
+    |X 
+     - */
+    REQUIRE(count_evaluate_live_cells(case0, sizeof(case0) / sizeof(case0[0])) == 0);
+    /*
+    |X
+    |X 
+    |X 
+     - */
+    int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
+    REQUIRE(count_evaluate_live_cells(case1, sizeof(case1) / sizeof(case1[0])) == 1);
+    /*
+    | X
+    |XXX
+    | X 
+     - */
+    int case2[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
+    REQUIRE(count_evaluate_live_cells(case2, sizeof(case2) / sizeof(case2[0])) == 4);
+}
