@@ -46,5 +46,7 @@ public:
     int add_cell(int x, int y);
     void dump(void) const;
     uint count_neighbors(const Cell c) const;
+    uint evaluate_live_cells(void);
+    uint evaluate_empty_neighbors(void);
 };
 #endif // __LIFE_H_INCLUDED__
