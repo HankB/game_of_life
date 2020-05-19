@@ -26,7 +26,7 @@ public:
     int get_y(void) const { return y; }
     Cell(int x, int y) : x(x), y(y), state(born) {}
     void vivify(void) { state = live; }
-    void kill() { state = dying; }
+    void kill(void) { state = dying; }
     cell_state get_state(void) const { return state; }
     bool is_live(void) { return state == live || state == dying; }
     bool is_next_to(const Cell c) const;
