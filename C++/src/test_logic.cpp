@@ -202,3 +202,47 @@ TEST_CASE("evaluates in Universe", "[Universe-process-live]")
     int case2[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
     REQUIRE(count_evaluate_live_cells(case2, sizeof(case2) / sizeof(case2[0])) == 4);
 }
+
+// test find_cell()
+
+bool use_find_cells(int coords[][2], uint count, int x, int y)
+{
+    Universe u = Universe();
+
+    for (uint i = 0; i < count; i++)
+        u.add_cell(coords[i][0], coords[i][1]);
+
+    std::list<Cell>::const_iterator c = u.find_cell(x, y);
+
+    if (c != u.end())
+    {
+        REQUIRE((c->get_x() == x && c->get_y() == y));
+        return true;
+    }
+    return false;
+}
+
+TEST_CASE("find cells in Universe", "[Universe-find-cell]")
+{
+    int case0[][2] = {{0, 0}, {0, 1}};
+    /*
+    |X
+    |X 
+     - */
+    REQUIRE(use_find_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 0) == true);
+    REQUIRE(use_find_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 1) == true);
+    REQUIRE(use_find_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 2) == false);
+    REQUIRE(use_find_cells(case0, 0, 0, 0) == false);
+    /*
+    | X
+    |XXX
+    | X 
+     - */
+    int case1[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 0) == false);
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 0) == true);
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 1) == true);
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 2) == true);
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 1) == true);
+    REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == true);
+}

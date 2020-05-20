@@ -49,7 +49,7 @@ uint Universe::evaluate_live_cells(void)
     {
         uint neighbor_count = count_neighbors(*c);
         //std::cout << std::endl << (*c) << " count >" << neighbor_count << std::endl;
-        if(neighbor_count <= 1 || neighbor_count >= 4)
+        if (neighbor_count <= 1 || neighbor_count >= 4)
             (*c).kill();
         else
             live_count++;
@@ -73,4 +73,16 @@ uint Universe::evaluate_empty_neighbors(void)
         // really need a find_cell() member function here.
     }
     return vivify_count;
+}
+
+std::list<Cell>::const_iterator Universe::find_cell(int x, int y)
+{
+    std::list<Cell>::const_iterator c;
+
+    for (c = universe.begin(); c != universe.end(); c++)
+    {
+        if (c->get_x() == x && c->get_y() == y)
+            return c;
+    }
+    return c;
 }
