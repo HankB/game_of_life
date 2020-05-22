@@ -255,7 +255,6 @@ TEST_CASE("find cells in Universe", "[Universe-find-cell]")
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == true);
 }
 
-
 int count_evaluate_empty_cells(int coords[][2], uint count)
 {
     Universe u = Universe();
