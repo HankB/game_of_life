@@ -255,7 +255,6 @@ TEST_CASE("find cells in Universe", "[Universe-find-cell]")
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == true);
 }
 
-#if defined SET_ASIDE
 
 int count_evaluate_empty_cells(int coords[][2], uint count)
 {
@@ -263,7 +262,7 @@ int count_evaluate_empty_cells(int coords[][2], uint count)
     uint vivify_count;
 
     for (uint i = 0; i < count; i++)
-        u.add_cell(coords[i][0], coords[i][1]);
+        u.add_cell(coords[i][0], coords[i][1], live);
 
     // verify that cells loaded
     REQUIRE(count == u.cell_count());
@@ -292,7 +291,6 @@ TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
     |X 
     |X 
      - */
-#if 0
     int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
     REQUIRE(count_evaluate_empty_cells(case1, sizeof(case1) / sizeof(case1[0])) == 2);
     /*
@@ -302,6 +300,4 @@ TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
      - */
     int case2[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
     REQUIRE(count_evaluate_empty_cells(case2, sizeof(case2) / sizeof(case2[0])) == 4);
-#endif
 }
-#endif
