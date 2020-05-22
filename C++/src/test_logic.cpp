@@ -246,3 +246,52 @@ TEST_CASE("find cells in Universe", "[Universe-find-cell]")
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 1) == true);
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == true);
 }
+
+#if defined SET_ASIDE
+
+int count_evaluate_empty_cells(int coords[][2], uint count)
+{
+    Universe u = Universe();
+    uint vivify_count;
+
+    for (uint i = 0; i < count; i++)
+        u.add_cell(coords[i][0], coords[i][1]);
+
+    // verify that cells loaded
+    REQUIRE(count == u.cell_count());
+    // evaluate which ones remain
+    vivify_count = u.evaluate_empty_neighbors();
+
+    // were the right number of cells added
+    REQUIRE(count+vivify_count == u.cell_count());
+
+    return vivify_count;
+}
+
+TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
+{
+    //int case0[][2] = {{0, 0}, {0, 1}};
+    int case0[][2] = {{1, 1},};
+    /*
+    |X
+    |X 
+     - */
+    REQUIRE(count_evaluate_empty_cells(case0, sizeof(case0) / sizeof(case0[0])) == 0);
+    /*
+    |X
+    |X 
+    |X 
+     - */
+#if 0
+    int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
+    REQUIRE(count_evaluate_empty_cells(case1, sizeof(case1) / sizeof(case1[0])) == 2);
+    /*
+    | X
+    |XXX
+    | X 
+     - */
+    int case2[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
+    REQUIRE(count_evaluate_empty_cells(case2, sizeof(case2) / sizeof(case2[0])) == 4);
+#endif
+}
+#endif

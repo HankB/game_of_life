@@ -57,6 +57,7 @@ uint Universe::evaluate_live_cells(void)
     return live_count;
 }
 
+#if defined SET_ASIDE
 /* Evaluate all empty cells next to live cells in the grid. 
 * 1) count live neighbors and determine if the cell should come
 * alive.
@@ -68,12 +69,48 @@ uint Universe::evaluate_empty_neighbors(void)
     std::list<Cell>::iterator c;
     uint vivify_count = 0;
 
-    for (c = universe.begin(); c != universe.end(); c++)
+    for (c = universe.begin(); c != universe.end(); c++) // for existing cells
     {
-        // really need a find_cell() member function here.
+        int ix;
+        int iy;
+        std::cout << "checking " << (*c) << std::endl;
+        for (ix = c->get_x() - 1; ix <= c->get_x() + 1; ix++) // for each live cell
+        {
+            for (iy = c->get_y() - 1; iy <= c->get_y() + 1; iy++)
+            {
+                uint live_neighbor_count = 0;
+                std::cout << "neighbors for " << ix << " " << iy << std::endl;
+
+                for (int check_x = ix - 1; check_x <= ix + 1; check_x++) // for cells surrounding each cell
+                {
+                    for (int check_y = iy - 1; check_y <= iy + 1; check_y++) 
+                    {
+                        if (!(check_x == ix && check_y == iy))
+                        {
+                            if (find_cell(check_x, check_y) == universe.end()) // empty cell
+                            {
+                                std::list<Cell>::const_iterator neighbor = find_cell(ix, iy);
+                                if (neighbor != end())
+                                {
+                                    live_neighbor_count++;
+                                }
+                                std::cout << check_x << " " << check_y << " " << live_neighbor_count << std::endl;
+                            }
+                        } // not this cell
+                    }
+                }
+                if (live_neighbor_count == 3)
+                {
+                    vivify_count++;
+                    universe.insert(c, Cell(ix, iy));
+                    // add cell to list here
+                }
+            }
+        }
     }
     return vivify_count;
 }
+#endif
 
 std::list<Cell>::const_iterator Universe::find_cell(int x, int y)
 {
