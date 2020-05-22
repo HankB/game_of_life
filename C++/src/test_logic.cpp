@@ -9,19 +9,10 @@ int construct_destroy_cell(void)
     return c.get_state();
 }
 
-// construct and progress to live
-int construct_vivify_cell(void)
+// construct and return state as constructed.
+int construct_destroy_cell_state(cell_state st)
 {
-    Cell c(0, 0);
-    c.vivify();
-    return c.get_state();
-}
-
-// construct and set to dying
-int construct_kill_cell(void)
-{
-    Cell c(0, 0);
-    c.kill();
+    Cell c(0, 0, st);
     return c.get_state();
 }
 
@@ -42,8 +33,8 @@ bool construct_is_live(void)
 TEST_CASE("constructor/destructor for cell", "[ctor/dtor]")
 {
     REQUIRE(construct_destroy_cell() == born);
-    REQUIRE(construct_vivify_cell() == live);
-    REQUIRE(construct_kill_cell() == dying);
+    REQUIRE(construct_destroy_cell_state(live) == live);
+    REQUIRE(construct_destroy_cell_state(dying) == dying);
     REQUIRE(construct_isnt_live() == true);
     REQUIRE(construct_is_live() == true);
 }
