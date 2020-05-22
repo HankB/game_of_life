@@ -9,7 +9,9 @@ A crude text mode version written in C has a primary drawback that it is not inf
 
 ## Status
 
-Working on the processes that move from one generation to the next, testing along the way.
+* Working on the processes that move from one generation to the next, testing along the way.
+* `ctest` does mot yet perform all tests (valgrind.)
+* Need to refactor some testing and provide better coverage.
 
 ## Strategy
 
