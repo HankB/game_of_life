@@ -2,9 +2,9 @@
 */
 #include "life.hpp"
 
-int Universe::add_cell(int x, int y)
+int Universe::add_cell(int x, int y, cell_state st)
 {
-    universe.push_back(Cell(x, y));
+    universe.push_back(Cell(x, y, st));
     return cell_count();
 }
 
@@ -23,13 +23,13 @@ void Universe::dump(void) const
         std::cout << (*c) << std::endl;
 }
 
-uint Universe::count_neighbors(const Cell c) const
+uint Universe::count_live_neighbors(const Cell c) const
 {
     uint count = 0;
     std::list<Cell>::const_iterator n;
 
     for (n = universe.begin(); n != universe.end(); n++)
-        if (c.is_next_to(*n))
+        if (c.is_next_to(*n) && n->is_live())
             count++;
 
     return count;
@@ -47,7 +47,7 @@ uint Universe::evaluate_live_cells(void)
 
     for (c = universe.begin(); c != universe.end(); c++)
     {
-        uint neighbor_count = count_neighbors(*c);
+        uint neighbor_count = count_live_neighbors(*c);
         //std::cout << std::endl << (*c) << " count >" << neighbor_count << std::endl;
         if (neighbor_count <= 1 || neighbor_count >= 4)
             (*c).kill();
@@ -83,7 +83,7 @@ uint Universe::evaluate_empty_neighbors(void)
 
                 for (int check_x = ix - 1; check_x <= ix + 1; check_x++) // for cells surrounding each cell
                 {
-                    for (int check_y = iy - 1; check_y <= iy + 1; check_y++) 
+                    for (int check_y = iy - 1; check_y <= iy + 1; check_y++)
                     {
                         if (!(check_x == ix && check_y == iy))
                         {

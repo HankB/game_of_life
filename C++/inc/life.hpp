@@ -8,9 +8,9 @@
 
 enum cell_state
 {
-    born,  // will be live, next iteration
-    live,  // live at end of pevious iteration
-    dying, // will die and be removed
+    born = 'b',  // will be live, next iteration
+    live = 'l',  // live at end of pevious iteration
+    dying = 'd', // will die and be removed
 };
 
 class Universe;
@@ -43,9 +43,9 @@ public:
     Universe(void) : universe() {}
     ~Universe(void) {}
     uint cell_count(void) { return universe.size(); }
-    int add_cell(int x, int y);
+    int add_cell(int x, int y, cell_state st = born);
     void dump(void) const;
-    uint count_neighbors(const Cell c) const;
+    uint count_live_neighbors(const Cell c) const;
     uint evaluate_live_cells(void);
     uint evaluate_empty_neighbors(void);
     std::list<Cell>::const_iterator find_cell(int x, int y);
