@@ -26,9 +26,16 @@ int construct_kill_cell(void)
 }
 
 // is_live at construction
-bool construct_is_live(void)
+bool construct_isnt_live(void)
 {
     Cell c(0, 0);
+    return !c.is_live();
+}
+
+// is_live at construction
+bool construct_is_live(void)
+{
+    Cell c(0, 0, live);
     return c.is_live();
 }
 
@@ -37,7 +44,8 @@ TEST_CASE("constructor/destructor for cell", "[ctor/dtor]")
     REQUIRE(construct_destroy_cell() == born);
     REQUIRE(construct_vivify_cell() == live);
     REQUIRE(construct_kill_cell() == dying);
-    REQUIRE(construct_is_live() == false);
+    REQUIRE(construct_isnt_live() == true);
+    REQUIRE(construct_is_live() == true);
 }
 
 // testing adjacency

@@ -24,11 +24,11 @@ class Cell
 public:
     int get_x(void) const { return x; }
     int get_y(void) const { return y; }
-    Cell(int x, int y) : x(x), y(y), state(born) {}
+    Cell(int x, int y, cell_state st = born) : x(x), y(y), state(st) {}
     void vivify(void) { state = live; }
     void kill(void) { state = dying; }
     cell_state get_state(void) const { return state; }
-    bool is_live(void) { return state == live || state == dying; }
+    bool is_live(void) const { return state == live || state == dying; }
     bool is_next_to(const Cell c) const;
     friend Universe;
 };
