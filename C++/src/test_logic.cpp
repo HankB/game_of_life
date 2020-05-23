@@ -102,14 +102,22 @@ TEST_CASE("constructor/destructor for Universe", "[Universe-ctor/dtor]")
     REQUIRE(add_cell_universe(2) == 2);
 }
 
+// setup for cell for further testing
+typedef struct
+{
+    int x_coord;
+    int y_coord;
+    cell_state state;
+} TestCell;
+
 // test neighbor count, count neighbors for coords[check]
-int count_live_neighbor_cells(int coords[][2], uint count, int check_x, int check_y)
+int count_live_neighbor_cells(TestCell cells[], uint count, int check_x, int check_y)
 {
     Universe u = Universe();
     Cell c(check_x, check_y);
 
     for (uint i = 0; i < count; i++)
-        u.add_cell(coords[i][0], coords[i][1], live);
+        u.add_cell(cells[i].x_coord, cells[i].y_coord, cells[i].state);
 
     // verify that cells loaded
     REQUIRE(count == u.cell_count());
@@ -120,23 +128,30 @@ int count_live_neighbor_cells(int coords[][2], uint count, int check_x, int chec
 
 TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
 {
-    int case0[][2] = {{0, 0}, {0, 1}};
+    TestCell case0[] = {{0, 0, live}, {0, 1, live}};
     /*
     |X
     |X 
      - */
     REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 0) == 1);
     REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 1) == 1);
+    REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 2) == 1);
+    REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 0, 3) == 0);
+    REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 2, 0) == 0);
+    REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 2, 1) == 0);
+    REQUIRE(count_live_neighbor_cells(case0, sizeof(case0) / sizeof(case0[0]), 1, 0) == 2);
 
     /*
     |X
     |X 
     |X 
      - */
-    int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
+    TestCell case1[] = {{0, 0, live}, {0, 1, live}, {0, 2, live}};
     REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 0) == 1);
     REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 1) == 2);
     REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 2) == 1);
+    REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 1) == 3);
+    REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 0) == 2);
 
     // tests from empty adjacent cells
     /*
@@ -160,6 +175,25 @@ TEST_CASE("count cell neighbors in Universe", "[Universe-count-neighbors]")
     |- */
 
     REQUIRE(count_live_neighbor_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == 0);
+    /*
+    |b
+    |X 
+    |X 
+     - */
+    TestCell case2[] = {{0, 0, live}, {0, 1, live}, {0, 2, born}};
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 0, 0) == 1);
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 0, 1) == 1);
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 0, 2) == 1);
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 1, 2) == 1);
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 1, 1) == 2);
+    REQUIRE(count_live_neighbor_cells(case2, sizeof(case2) / sizeof(case2[0]), 1, 0) == 2);
+
+    TestCell case3[] = {{0, 0, live}, {0, 1, live}, {0, 2, dying}};
+    REQUIRE(count_live_neighbor_cells(case3, sizeof(case3) / sizeof(case3[0]), 0, 0) == 1);
+    REQUIRE(count_live_neighbor_cells(case3, sizeof(case3) / sizeof(case3[0]), 0, 1) == 2);
+    REQUIRE(count_live_neighbor_cells(case3, sizeof(case3) / sizeof(case3[0]), 0, 2) == 1);
+    REQUIRE(count_live_neighbor_cells(case3, sizeof(case3) / sizeof(case3[0]), 1, 1) == 3);
+    REQUIRE(count_live_neighbor_cells(case3, sizeof(case3) / sizeof(case3[0]), 1, 0) == 2);
 }
 
 int count_evaluate_live_cells(int coords[][2], uint count)
