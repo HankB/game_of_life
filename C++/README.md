@@ -45,7 +45,7 @@ ctest # eventually
 
 The `Catch2` (https://github.com/catchorg/Catch2) framework is used for unit testing and the header is downloaded and included in `.../C++/inc`. The `test_logic` executable uses `Catch2`.
 
-At present the test executable `test_logic` can be run stand alone from the build directory as can the valgrind tests. Eventually the valgrind tests will be included in `ctest` execution.
+At present the test executable `test_logic` can be run stand alone from the build directory as can the valgrind tests. The valgrind tests are also included in `ctest` execution.
 
 ```text
 ./test_logic
@@ -54,4 +54,20 @@ valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
 
 ```
 
-`test_logic` can also be executed by running `ctest`.
+All three tests can be executed by running `ctest`.
+
+```text
+hbarta@rocinante:~/Programming/game_of_life/C++/build$ ctest
+Test project /home/hbarta/Programming/game_of_life/C++/build
+    Start 1: TestLogicRuns
+1/3 Test #1: TestLogicRuns ....................   Passed    0.00 sec
+    Start 2: ValgrindTestOK
+2/3 Test #2: ValgrindTestOK ...................   Passed    1.48 sec
+    Start 3: ValgrindArrayTestOK
+3/3 Test #3: ValgrindArrayTestOK ..............   Passed    7.39 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   8.88 sec
+hbarta@rocinante:~/Programming/game_of_life/C++/build$ 
+```
