@@ -27,6 +27,10 @@ Processing will occur in three passes.
 * For any neighbors not in the list (e.g. `dead`) it will be necessary to count the neighbors and determine if it will be `born` and added to the list of existing cells. `dieing` cells are still counted as neighbors but `born` cells are not.
 * During the third pass, all `born` cells are marked as `live`, Any `dieing` cells are removed from the list.
 
+## Requirements
+
+* g++, cmake valgrind `dnf install cmake valgrind g++` in Fedora. `sudo apt install cmake g++ valgrind` in Debian/Ubuntu etc.
+
 ## Building
 
 ```text
@@ -36,3 +40,18 @@ cmake ..
 make
 ctest # eventually
 ```
+
+## Testing
+
+The `Catch2` (https://github.com/catchorg/Catch2) framework is used for unit testing and the header is downloaded and included in `.../C++/inc`. The `test_logic` executable uses `Catch2`.
+
+At present the test executable `test_logic` can be run stand alone from the build directory as can the valgrind tests. Eventually the valgrind tests will be included in `ctest` execution.
+
+```text
+./test_logic
+valgrind ./test_logic
+valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
+
+```
+
+`test_logic` can also be executed by running `ctest`.
