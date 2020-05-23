@@ -238,12 +238,14 @@ TEST_CASE("evaluates in Universe", "[Universe-process-live]")
 
 // test find_cell()
 
-bool use_find_cells(int coords[][2], uint count, int x, int y)
+bool use_find_cells(TestCell cells[], uint count, int x, int y)
 {
     Universe u = Universe();
 
+   /* for (uint i = 0; i < count; i++)
+        u.add_cell(coords[i][0], coords[i][1]); */
     for (uint i = 0; i < count; i++)
-        u.add_cell(coords[i][0], coords[i][1]);
+        u.add_cell(cells[i].x_coord, cells[i].y_coord, cells[i].state);
 
     std::list<Cell>::const_iterator c = u.find_cell(x, y);
 
@@ -257,7 +259,7 @@ bool use_find_cells(int coords[][2], uint count, int x, int y)
 
 TEST_CASE("find cells in Universe", "[Universe-find-cell]")
 {
-    int case0[][2] = {{0, 0}, {0, 1}};
+    TestCell case0[] = {{0, 0, live}, {0, 1, live}};
     /*
     |X
     |X 
@@ -271,7 +273,7 @@ TEST_CASE("find cells in Universe", "[Universe-find-cell]")
     |XXX
     | X 
      - */
-    int case1[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
+    TestCell case1[] = {{1, 0, live}, {1, 1, live}, {1, 2, live}, {0, 1, live}, {2, 1, live}};
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 0, 0) == false);
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 0) == true);
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 1, 1) == true);
@@ -280,13 +282,13 @@ TEST_CASE("find cells in Universe", "[Universe-find-cell]")
     REQUIRE(use_find_cells(case1, sizeof(case1) / sizeof(case1[0]), 2, 1) == true);
 }
 
-int count_evaluate_empty_cells(int coords[][2], uint count)
+int count_evaluate_empty_cells(TestCell cells[], uint count)
 {
     Universe u = Universe();
     uint vivify_count;
 
     for (uint i = 0; i < count; i++)
-        u.add_cell(coords[i][0], coords[i][1], live);
+        u.add_cell(cells[i].x_coord, cells[i].y_coord, cells[i].state);
 
     // verify that cells loaded
     REQUIRE(count == u.cell_count());
@@ -302,8 +304,8 @@ int count_evaluate_empty_cells(int coords[][2], uint count)
 TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
 {
     //int case0[][2] = {{0, 0}, {0, 1}};
-    int case0[][2] = {
-        {1, 1},
+    TestCell case0[] = {
+        {1, 1, live},
     };
     /*
     |X
@@ -315,13 +317,16 @@ TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
     |X 
     |X 
      - */
-    int case1[][2] = {{0, 0}, {0, 1}, {0, 2}};
+    TestCell case1[] = {{0, 0, live}, {0, 1, live}, {0, 2, live}};
     REQUIRE(count_evaluate_empty_cells(case1, sizeof(case1) / sizeof(case1[0])) == 2);
     /*
     | X
     |XXX
     | X 
      - */
-    int case2[][2] = {{1, 0}, {1, 1}, {1, 2}, {0, 1}, {2, 1}};
+    TestCell case2[] = {{1, 0, live}, {1, 1, live}, {1, 2, live}, {0, 1, live}, {2, 1, live}};
     REQUIRE(count_evaluate_empty_cells(case2, sizeof(case2) / sizeof(case2[0])) == 4);
+
+    TestCell case3[] = {{1, 0, born}, {1, 1, live}, {1, 2, live}, {0, 1, live}, {2, 1, live}};
+    REQUIRE(count_evaluate_empty_cells(case3, sizeof(case3) / sizeof(case3[0])) == 2);
 }
