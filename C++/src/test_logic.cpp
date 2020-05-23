@@ -91,7 +91,6 @@ int add_cell_universe(int cells)
     {
         u.add_cell(i, 0);
     }
-    //u.dump();
     return u.cell_count();
 }
 
@@ -121,8 +120,7 @@ int count_live_neighbor_cells(TestCell cells[], uint count, int check_x, int che
 
     // verify that cells loaded
     REQUIRE(count == u.cell_count());
-    //u.dump();
-    //std::cout << "T " << c << std::endl;
+
     return u.count_live_neighbors(c);
 }
 
@@ -242,8 +240,6 @@ bool use_find_cells(TestCell cells[], uint count, int x, int y)
 {
     Universe u = Universe();
 
-   /* for (uint i = 0; i < count; i++)
-        u.add_cell(coords[i][0], coords[i][1]); */
     for (uint i = 0; i < count; i++)
         u.add_cell(cells[i].x_coord, cells[i].y_coord, cells[i].state);
 

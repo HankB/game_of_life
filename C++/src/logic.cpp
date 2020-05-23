@@ -48,7 +48,7 @@ uint Universe::evaluate_live_cells(void)
     for (c = universe.begin(); c != universe.end(); c++)
     {
         uint neighbor_count = count_live_neighbors(*c);
-        //std::cout << std::endl << (*c) << " count >" << neighbor_count << std::endl;
+
         if (neighbor_count <= 1 || neighbor_count >= 4)
             (*c).kill();
         else
@@ -72,21 +72,20 @@ uint Universe::evaluate_empty_neighbors(void)
     {
         int ix;
         int iy;
-        //std::cout << "checking " << (*c) << std::endl;
+
         for (ix = c->get_x() - 1; ix <= c->get_x() + 1; ix++) // for each live cell
         {
             for (iy = c->get_y() - 1; iy <= c->get_y() + 1; iy++)
             {
-                if (!(ix == c->get_x() && iy == c->get_y()) &&           // not 'this' cell
-                    find_cell(ix, iy) == universe.end()) // is not empty
+                if (!(ix == c->get_x() && iy == c->get_y()) && // not 'this' cell
+                    find_cell(ix, iy) == universe.end())       // is not empty
                 {
                     uint live_neighbor_count = count_live_neighbors(Cell(ix, iy));
-                    //std::cout << "neighbors for " << ix << " " << iy << std::endl;
+
                     if (live_neighbor_count == 3)
                     {
                         vivify_count++;
                         universe.insert(c, Cell(ix, iy));
-                        // add cell to list here
                     }
                 }
             }
