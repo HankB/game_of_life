@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.7)
 project(game_of_life)
 
-# Minimum version as iknstalled on Debian Stretch
+# Minimum cmake version as installed on Debian Stretch
  
-#Bring the headers, such as tower.h into the project
+# Bring the headers, such as logic.h into the project
 include_directories(inc)
  
-#Can manually add the sources using the set command as follows:
+# Can manually add the sources using the set command as follows:
 #set(SOURCES src/tower.cpp)
  
 #However, the file(GLOB...) allows for wildcard additions:
@@ -17,35 +17,24 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11 ")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -Wall -std=c++11 ")
 set(CMAKE_CXX_FLAGS_RELEASE "-O0 -ggdb -Wall -std=c++11 ")
 
-# sources for stack test app
-# add_executable(test_stack 
-#     src/catch2_Main.cpp
-#     src/test-stack.cpp 
-#     src/stack.cpp)
-
-# sources for board test app
-# add_executable(test_board 
-#     src/catch2_Main.cpp
-#     src/test-board.cpp 
-#     src/stack.cpp
-#     src/board.cpp)
-
 # sources for test executable
 add_executable(test_logic 
-    src/test_logic.cpp src/catch2_Main.cpp src/util.cpp src//logic.cpp)
+    src/test_logic.cpp
+    src/catch2_Main.cpp
+    src/util.cpp
+    src//logic.cpp)
 
 
-
-# Now some unit tests
+# Now some tests
 include(CTest)
 
-# Test stack related ========================
+# Test logic related ========================
 # does the application run
 add_test (TestLogicRuns test_logic)
 
-# does all internal Catch2 tests pass?
-#add_test (StackCatch2TestOK test_stack)
-#set_tests_properties (StackCatch2TestOK PROPERTIES PASS_REGULAR_EXPRESSION "All tests passed")
+# do Catch2 tests pass?
+add_test (LogicCatch2TestOK test_logic)
+set_tests_properties (LogicCatch2TestOK PROPERTIES PASS_REGULAR_EXPRESSION "All tests passed")
 
 # does valgrind report any problems?
 add_test (ValgrindTestLogicOK valgrind ./test_logic)
@@ -61,23 +50,5 @@ set_tests_properties (ValgrindTestLogic_sgcheck_OK PROPERTIES PASS_REGULAR_EXPRE
 set_tests_properties (ValgrindTestLogic_sgcheck_OK PROPERTIES FAIL_REGULAR_EXPRESSION
     "LEAK SUMMARY")
 
-#set_tests_properties(StackTestRuns StackCatch2TestOK StackValgrindTestOK 
-#    PROPERTIES LABELS StackTest)
-
-# Test board related ========================
-# does the application run
-#add_test (BoardTestRuns test_board)
-
-# does all internal Catch2 tests pass?
-#add_test (BoardCatch2TestOK test_board)
-#set_tests_properties (BoardCatch2TestOK PROPERTIES PASS_REGULAR_EXPRESSION "All tests passed")
-
-# does valgrind report any problems?
-#add_test (BoardValgrindTestOK valgrind ./test_board)
-#set_tests_properties (BoardValgrindTestOK PROPERTIES PASS_REGULAR_EXPRESSION
-#    "ERROR SUMMARY: 0 errors from 0 contexts")
-## set_tests_properties (BoardValgrindTestOK PROPERTIES FAIL_REGULAR_EXPRESSION
-##    "LEAK SUMMARY")
-
-#set_tests_properties(BoardTestRuns BoardCatch2TestOK BoardValgrindTestOK 
-#    PROPERTIES LABELS BoardTest)
+set_tests_properties(TestLogicRuns LogicCatch2TestOK ValgrindTestLogicOK ValgrindTestLogic_sgcheck_OK
+    PROPERTIES LABELS LogicTest)
