@@ -48,17 +48,17 @@ add_test (TestLogicRuns test_logic)
 #set_tests_properties (StackCatch2TestOK PROPERTIES PASS_REGULAR_EXPRESSION "All tests passed")
 
 # does valgrind report any problems?
-add_test (ValgrindTestOK valgrind ./test_logic)
-set_tests_properties (ValgrindTestOK PROPERTIES PASS_REGULAR_EXPRESSION
+add_test (ValgrindTestLogicOK valgrind ./test_logic)
+set_tests_properties (ValgrindTestLogicOK PROPERTIES PASS_REGULAR_EXPRESSION
     "ERROR SUMMARY: 0 errors from 0 contexts")
-set_tests_properties (ValgrindTestOK PROPERTIES FAIL_REGULAR_EXPRESSION
+set_tests_properties (ValgrindTestLogicOK PROPERTIES FAIL_REGULAR_EXPRESSION
     "LEAK SUMMARY")
 
-# another valgrind test
-add_test (ValgrindArrayTestOK valgrind --tool=exp-sgcheck ./test_logic)
-set_tests_properties (ValgrindArrayTestOK PROPERTIES PASS_REGULAR_EXPRESSION
+# another valgrind report any problems?
+add_test (ValgrindTestLogic_sgcheck_OK valgrind --tool=exp-sgcheck ./test_logic)
+set_tests_properties (ValgrindTestLogic_sgcheck_OK PROPERTIES PASS_REGULAR_EXPRESSION
     "ERROR SUMMARY: 0 errors from 0 contexts")
-set_tests_properties (ValgrindArrayTestOK PROPERTIES FAIL_REGULAR_EXPRESSION
+set_tests_properties (ValgrindTestLogic_sgcheck_OK PROPERTIES FAIL_REGULAR_EXPRESSION
     "LEAK SUMMARY")
 
 #set_tests_properties(StackTestRuns StackCatch2TestOK StackValgrindTestOK 
