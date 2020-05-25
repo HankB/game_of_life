@@ -51,23 +51,37 @@ At present the test executable `test_logic` can be run stand alone from the buil
 ./test_logic
 valgrind ./test_logic
 valgrind --tool=exp-sgcheck ./test_logic # stack/array bounds check
-
+./test_util
+valgrind ./test_util
+valgrind --tool=exp-sgcheck ./test_util # stack/array bounds check
 ```
 
-All three tests can be executed by running `ctest`.
+All six tests can be executed by running `ctest`.
 
 ```text
-hbarta@rocinante:~/Programming/game_of_life/C++/build$ ctest
 Test project /home/hbarta/Programming/game_of_life/C++/build
     Start 1: TestLogicRuns
-1/3 Test #1: TestLogicRuns ....................   Passed    0.00 sec
-    Start 2: ValgrindTestOK
-2/3 Test #2: ValgrindTestOK ...................   Passed    1.48 sec
-    Start 3: ValgrindArrayTestOK
-3/3 Test #3: ValgrindArrayTestOK ..............   Passed    7.39 sec
+1/8 Test #1: TestLogicRuns ....................   Passed    0.00 sec
+    Start 2: LogicCatch2TestOK
+2/8 Test #2: LogicCatch2TestOK ................   Passed    0.00 sec
+    Start 3: ValgrindTestLogicOK
+3/8 Test #3: ValgrindTestLogicOK ..............   Passed    1.41 sec
+    Start 4: ValgrindTestLogic_sgcheck_OK
+4/8 Test #4: ValgrindTestLogic_sgcheck_OK .....   Passed    7.01 sec
+    Start 5: TestUtilityRuns
+5/8 Test #5: TestUtilityRuns ..................   Passed    0.00 sec
+    Start 6: UtilityCatch2TestOK
+6/8 Test #6: UtilityCatch2TestOK ..............   Passed    0.00 sec
+    Start 7: ValgrindTestUtilityOK
+7/8 Test #7: ValgrindTestUtilityOK ............   Passed    1.25 sec
+    Start 8: ValgrindTestUtility_sgcheck_OK
+8/8 Test #8: ValgrindTestUtility_sgcheck_OK ...   Passed    6.95 sec
 
-100% tests passed, 0 tests failed out of 3
+100% tests passed, 0 tests failed out of 8
 
-Total Test time (real) =   8.88 sec
+Label Time Summary:
+LogicTest    =  16.63 sec*proc (7 tests)
+
+Total Test time (real) =  16.63 sec
 hbarta@rocinante:~/Programming/game_of_life/C++/build$ 
 ```
