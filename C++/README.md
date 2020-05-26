@@ -18,14 +18,14 @@ A crude text mode version written in C has a primary drawback that it is not inf
 The central data structure is a cell. Each cell has coordinates that icentify its location in the grid and a state. The following states describe each cell.
 
 * `live` - A cell that came into being in a previous iteration and met the requirements to remain alive.
-* `dieing` - A cell that was previously live but has not met the requirements to remain alive in this iteration. In this iteration, this cell "counts" but will be removed before the next iteration.
+* `dying` - A cell that was previously live but has not met the requirements to remain alive in this iteration. In this iteration, this cell "counts" but will be removed before the next iteration.
 * `born` - this cell was not live but has met the requirements to become live and will be live in the next iteration.
 
 Processing will occur in three passes.
 
-* In the first pass, the neighbors for each `live`cell will be counted. Depending on the number of neighbors, a cell will remain `live` or will be marked as `dieing`.
-* For any neighbors not in the list (e.g. `dead`) it will be necessary to count the neighbors and determine if it will be `born` and added to the list of existing cells. `dieing` cells are still counted as neighbors but `born` cells are not.
-* During the third pass, all `born` cells are marked as `live`, Any `dieing` cells are removed from the list.
+* In the first pass, the neighbors for each `live`cell will be counted. Depending on the number of neighbors, a cell will remain `live` or will be marked as `dying`.
+* For any neighbors not in the list (e.g. `dead`) it will be necessary to count the neighbors and determine if it will be `born` and added to the list of existing cells. `dying` cells are still counted as neighbors but `born` cells are not.
+* During the third pass, all `born` cells are marked as `live`, Any `dying` cells are removed from the list.
 
 ## Requirements
 
