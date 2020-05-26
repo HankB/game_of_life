@@ -27,7 +27,8 @@ add_executable(test_logic
 add_executable(test_util 
     src/test_util.cpp
     src/catch2_Main.cpp
-    src/util.cpp)
+    src/util.cpp
+    src/logic.cpp)
 
 
 # Now some tests
