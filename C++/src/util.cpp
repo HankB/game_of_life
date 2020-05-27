@@ -37,19 +37,25 @@ const char representation(cell_state st)
 // variable bounds - from min/max cell coordinates.
 std::ostream &operator<<(std::ostream &str, const Universe &u)
 {
-    uint x_dim = 5;
-    uint y_dim = 6;
-    std::vector<std::string> grid = std::vector<std::string>(y_dim);
+    std::vector<std::string> grid = std::vector<std::string>(u.dim_y());
     std::list<Cell>::const_iterator c;
 
     // init grid
-    for (uint i = 0; i < y_dim; i++)
-        grid[i] = std::string(x_dim, empty_cell);
+    for (uint i = 0; i < u.dim_y(); i++)
+        grid[i] = std::string(u.dim_x(), empty_cell);
 
     for (c = u.begin(); c != u.end(); c++)
-        grid[y_dim - 1 - c->get_y()][c->get_x()] = representation(c->get_state());
+    {
+        if (c->get_x() >= u.origin_x() &&
+            c->get_x() < u.origin_x() + int(u.dim_x()) &&
+            c->get_y() >= u.origin_y() &&
+            c->get_y() < u.origin_y() + int(u.dim_y()))
+        {
+            grid[u.dim_y() - 1 - c->get_y()][c->get_x()] = representation(c->get_state());
+        }
+    }
 
-    for (uint i = 0; i < y_dim; i++)
+    for (uint i = 0; i < u.dim_y(); i++)
         str << grid[i] << std::endl;
 
     //std::cout << str <<

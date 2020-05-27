@@ -53,10 +53,14 @@ TEST_CASE("Universe stream inserter", "[Universe/cout]")
     |X 
      - */
     std::string result = cout_Grid(case0, sizeof(case0) / sizeof(case0[0]));
-    CHECK(result == ".....\n"
-                    ".....\n"
-                    ".....\n"
-                    ".....\n"
-                    "o....\n"
-                    "X....\n");
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "o.........\n"
+                    "X.........\n");
 }

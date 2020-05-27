@@ -38,6 +38,12 @@ std::ostream &operator<<(std::ostream &str, const Cell &c);
 class Universe
 {
     std::list<Cell> universe;
+    int grid_origin_x;
+    int grid_origin_y;
+    uint grid_dim_x;
+    uint grid_dim_y;
+    static const uint default_dim_x = 10;
+    static const uint default_dim_y = 10;
 
 public:
     Universe(void) : universe() {}
