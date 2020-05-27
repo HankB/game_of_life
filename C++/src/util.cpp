@@ -33,8 +33,7 @@ const char representation(cell_state st)
 }
 
 // TODO:
-// handle cells outside bounds
-// variable bounds - from min/max cell coordinates.
+// variable bounds - from min/max cell coordinates. (not elavent here)
 std::ostream &operator<<(std::ostream &str, const Universe &u)
 {
     std::vector<std::string> grid = std::vector<std::string>(u.dim_y());
