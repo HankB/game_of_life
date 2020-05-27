@@ -15,7 +15,7 @@ std::ostream &operator<<(std::ostream &str, const Cell &c)
 static const char empty_cell = '.';
 static const char born_cell = 'o';
 static const char live_cell = 'X';
-static const char dying_cell = '.';
+static const char dying_cell = 'x';
 
 const char representation(cell_state st)
 {
