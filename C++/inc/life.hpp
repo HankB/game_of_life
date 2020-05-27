@@ -46,7 +46,17 @@ class Universe
     static const uint default_dim_y = 10;
 
 public:
-    Universe(void) : universe() {}
+    Universe(void) : universe(),
+                     grid_origin_x(0),
+                     grid_origin_y(0),
+                     grid_dim_x(default_dim_x),
+                     grid_dim_y(default_dim_y)
+    {
+    }
+    int origin_x(void) const { return grid_origin_x; }
+    int origin_y(void) const { return grid_origin_y; }
+    uint dim_x(void) const { return grid_dim_x; }
+    uint dim_y(void) const { return grid_dim_y; }
     ~Universe(void) {}
     uint cell_count(void) { return universe.size(); }
     int add_cell(int x, int y, cell_state st = born);
