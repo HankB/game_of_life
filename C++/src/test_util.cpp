@@ -63,4 +63,21 @@ TEST_CASE("Universe stream inserter", "[Universe/cout]")
                     "..........\n"
                     "o.........\n"
                     "X.........\n");
+
+    TestCell case1[] = {{0, 0, live}, {0, 11, born}, {-1, 3, born}, {3, 3, dying}};
+    /*
+    |X
+    |X 
+     - */
+    result = cout_Grid(case1, sizeof(case1) / sizeof(case1[0]));
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "...x......\n"
+                    "..........\n"
+                    "..........\n"
+                    "X.........\n");
 }
