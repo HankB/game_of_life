@@ -1,4 +1,5 @@
 #include <catch.hpp>
+#include <sstream>
 
 #include "life.hpp"
 
@@ -325,4 +326,80 @@ TEST_CASE("empty neighbors in Universe", "[Universe-process-empty]")
 
     TestCell case3[] = {{1, 0, born}, {1, 1, live}, {1, 2, live}, {0, 1, live}, {2, 1, live}};
     REQUIRE(count_evaluate_empty_cells(case3, sizeof(case3) / sizeof(case3[0])) == 2);
+}
+
+std::string check_evaluate_finish_generation(TestCell cells[], uint count)
+{
+    Universe u = Universe();
+    uint dying_count = 0;
+    std::stringstream buffer;
+
+    for (uint i = 0; i < count; i++)
+    {
+        u.add_cell(cells[i].x_coord, cells[i].y_coord, cells[i].state);
+        if (cells[i].state == dying)
+            dying_count++;
+    }
+
+    // verify that cells loaded
+    REQUIRE(count == u.cell_count());
+    // evaluate which ones remain
+    REQUIRE(dying_count == u.finish_generation());
+
+    buffer << u;
+    return buffer.str();
+}
+
+TEST_CASE("finish generation in Universe", "[Universe-process-finish]")
+{
+    //int case0[][2] = {{0, 0}, {0, 1}};
+    TestCell case0[] = {
+        {1, 1, live},
+    };
+    /*
+    |X 
+     - */
+    REQUIRE(count_evaluate_empty_cells(case0, sizeof(case0) / sizeof(case0[0])) == 0);
+    std::string result = check_evaluate_finish_generation(case0, sizeof(case0) / sizeof(case0[0]));
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    ".X........\n"
+                    "..........\n");
+
+    /*
+    |X
+    |X 
+    |X */
+    TestCell case1[] = {{0, 0, live}, {0, 1, dying}, {0, 2, live}};
+    result = check_evaluate_finish_generation(case1, sizeof(case1) / sizeof(case1[0]));
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "X.........\n"
+                    "..........\n"
+                    "X.........\n");
+
+    TestCell case2[] = {{0, 0, live}, {0, 1, born}, {0, 2, live}};
+    result = check_evaluate_finish_generation(case2, sizeof(case2) / sizeof(case2[0]));
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "X.........\n"
+                    "X.........\n"
+                    "X.........\n");
+
 }

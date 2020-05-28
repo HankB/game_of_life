@@ -105,3 +105,30 @@ std::list<Cell>::const_iterator Universe::find_cell(int x, int y)
     }
     return c;
 }
+
+// predicate to identify cells to remove (remove_if())
+bool cell_dying(const Cell &c) { return c.get_state() == dying; };
+
+/** Process the list of entries, performing the following tasks
+ * to complete the generation.
+ * 1) Remove any "dying" cells.
+ * 2) Promote any 'born' cells to 'live'
+ * Return number of dying cells removed.
+ */
+uint Universe::finish_generation(void)
+{
+    std::list<Cell>::iterator c;
+    uint died_count = cell_count();
+
+    universe.remove_if(cell_dying);
+
+    for (c = universe.begin(); c != universe.end(); c++) // for existing cells
+    {
+        if (c->get_state() == born)
+        {
+            c->vivify();
+        }
+    }
+    died_count -= cell_count();
+    return died_count;
+}

@@ -64,6 +64,7 @@ public:
     uint count_live_neighbors(const Cell c) const;
     uint evaluate_live_cells(void);
     uint evaluate_empty_neighbors(void);
+    uint finish_generation(void);
     std::list<Cell>::const_iterator find_cell(int x, int y);
     std::list<Cell>::const_iterator begin(void) const { return universe.begin(); };
     std::list<Cell>::const_iterator end(void) const { return universe.end(); };
