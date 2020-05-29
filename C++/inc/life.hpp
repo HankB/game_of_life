@@ -46,11 +46,11 @@ class Universe
     static const uint default_dim_y = 10;
 
 public:
-    Universe(void) : universe(),
+    Universe(uint x_dim = default_dim_x, uint y_dim = default_dim_y) : universe(),
                      grid_origin_x(0),
                      grid_origin_y(0),
-                     grid_dim_x(default_dim_x),
-                     grid_dim_y(default_dim_y)
+                     grid_dim_x(x_dim),
+                     grid_dim_y(y_dim)
     {
     }
     int origin_x(void) const { return grid_origin_x; }
