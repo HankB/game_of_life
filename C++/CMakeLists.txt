@@ -22,7 +22,7 @@ add_executable(test_logic
     src/test_logic.cpp
     src/catch2_Main.cpp
     src/util.cpp
-    src//logic.cpp)
+    src/logic.cpp)
 
 add_executable(test_util 
     src/test_util.cpp
@@ -30,6 +30,10 @@ add_executable(test_util
     src/util.cpp
     src/logic.cpp)
 
+add_executable(life 
+    src/life.cpp
+    src/util.cpp
+    src/logic.cpp)
 
 # Now some tests
 include(CTest)
