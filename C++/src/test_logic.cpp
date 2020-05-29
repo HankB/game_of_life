@@ -403,3 +403,52 @@ TEST_CASE("finish generation in Universe", "[Universe-process-finish]")
                     "X.........\n");
 
 }
+
+// test complete generation
+
+std::string check_complete_generation(Universe &u)
+{
+    std::stringstream buffer;
+
+    u.evaluate_live_cells();
+    u.evaluate_empty_neighbors();
+    u.finish_generation();
+
+    buffer << u;
+
+    return buffer.str();
+}
+
+TEST_CASE("complete generation in Universe", "[Universe-complete-generation]")
+{
+    TestCell case1[] = {{1, 0, live}, {1, 1, live}, {1, 2, live}};
+    Universe u = Universe();
+
+    for (uint i = 0; i < (sizeof case1/sizeof case1[0]); i++)
+    {
+        u.add_cell(case1[i].x_coord, case1[i].y_coord, case1[i].state);
+    }
+
+    std::string result = check_complete_generation(u);
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "XXX.......\n"
+                    "..........\n");
+    result = check_complete_generation(u);
+    CHECK(result == "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    "..........\n"
+                    ".X........\n"
+                    ".X........\n"
+                    ".X........\n");
+}
