@@ -9,9 +9,14 @@ A crude text mode version written in C has a primary drawback that it is not inf
 
 ## Status
 
-* Working on the processes that move from one generation to the next, testing along the way.
-* `ctest` does mot yet perform all tests (valgrind.)
-* Need to refactor some testing and provide better coverage.
+* Initial CLI app is working with a hard coded starting point. This initial poattern is the homage to Conway produced by the [XKCD comic](https://xkcd.com/2293/).
+* `ctest` performs all tests including `valgrind`.
+
+## TODO
+
+* Processing for command line args. (grid size, predefined starting point, time delay etc.)
+* Read starting pattern and perhaps other parameters from a disk file.
+* Provide a GUI.
 
 ## Strategy
 
