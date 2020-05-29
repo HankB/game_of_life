@@ -90,3 +90,7 @@ LogicTest    =  16.63 sec*proc (7 tests)
 Total Test time (real) =  16.63 sec
 hbarta@rocinante:~/Programming/game_of_life/C++/build$ 
 ```
+
+## errata
+
+At present (2020-05-29) the `valgrind` tests do not pass on Raspbian Buster (now called Raspberry Pi OS.) If the current version of `valgrind` (3.16.0) is downloaded and built, the resulting executable passes the test. Noted on the [Raspberry Pi forum](https://www.raspberrypi.org/forums/viewtopic.php?f=33&t=275485) and an [issue filed](https://bugs.launchpad.net/raspbian/+bug/1743293). Also of note the ` --tool=exp-sgcheck` option seems not to be supported on ARM.
