@@ -47,10 +47,10 @@ class Universe
 
 public:
     Universe(uint x_dim = default_dim_x, uint y_dim = default_dim_y) : universe(),
-                     grid_origin_x(0),
-                     grid_origin_y(0),
-                     grid_dim_x(x_dim),
-                     grid_dim_y(y_dim)
+                                                                       grid_origin_x(0),
+                                                                       grid_origin_y(0),
+                                                                       grid_dim_x(x_dim),
+                                                                       grid_dim_y(y_dim)
     {
     }
     int origin_x(void) const { return grid_origin_x; }
