@@ -83,9 +83,11 @@ typedef struct
 // encapsulate program options to be set in options()
 typedef struct
 {
-    std::string name; // starting pattern
-    uint width;       // dimensions of grid
-    uint height;
+    std::string name;     // starting pattern
+    uint width;           // dimensions of grid
+    uint height;          //
+    uint delay_ms;        // delay between generations
+    uint iteration_count; // number of iterations to perform
 } program_options;
 
 bool options(int argc, const char **argv, program_options &opts);

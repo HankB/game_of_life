@@ -81,3 +81,29 @@ TEST_CASE("Universe stream inserter", "[Universe/cout]")
                     "..........\n"
                     "X.........\n");
 }
+
+std::string check_args(int argc, const char **argv)
+{
+    program_options opt;
+    std::stringstream buffer;
+
+    if (options(argc, argv, opt))
+    {
+        buffer << opt.name << "," 
+        << opt.width << "," 
+        << opt.height << ","
+        << opt.delay_ms << ","
+        << opt.iteration_count;
+        return buffer.str();
+    }
+    else
+    {
+        return std::string("unparseable");
+    }
+}
+
+TEST_CASE("Command line args", "[cmdline/args]")
+{
+    const char *args[] = {"progname"};
+    CHECK(check_args(1, args) == "xkcd,40,20,333,100");
+}

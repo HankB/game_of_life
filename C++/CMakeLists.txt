@@ -28,7 +28,8 @@ add_executable(test_util
     src/test_util.cpp
     src/catch2_Main.cpp
     src/util.cpp
-    src/logic.cpp)
+    src/logic.cpp
+    src/options.cpp)
 
 add_executable(life 
     src/life.cpp
