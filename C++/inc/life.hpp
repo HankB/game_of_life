@@ -72,4 +72,22 @@ public:
 
 std::ostream &operator<<(std::ostream &str, const Universe &c);
 
+// encapsulate data to init the universe, identified by name.
+typedef struct
+{
+    uint count;       // number of points
+    std::string name; // name of pattern
+    char point[][3];  // coordiunates of live points
+} pattern;
+
+// encapsulate program options to be set in options()
+typedef struct
+{
+    std::string name; // starting pattern
+    uint width;       // dimensions of grid
+    uint height;
+} program_options;
+
+bool options(int argc, const char **argv, program_options &opts);
+
 #endif // __LIFE_H_INCLUDED__
