@@ -82,18 +82,18 @@ TEST_CASE("Universe stream inserter", "[Universe/cout]")
                     "X.........\n");
 }
 
-std::string check_args(int argc, const char **argv)
+std::string check_args(int argc, char const *argv[])
 {
     program_options opt;
     std::stringstream buffer;
 
     if (options(argc, argv, opt))
     {
-        buffer << opt.name << "," 
-        << opt.width << "," 
-        << opt.height << ","
-        << opt.delay_ms << ","
-        << opt.iteration_count;
+        buffer << opt.name << ","
+               << opt.width << ","
+               << opt.height << ","
+               << opt.delay_ms << ","
+               << opt.iteration_count;
         return buffer.str();
     }
     else
@@ -104,6 +104,13 @@ std::string check_args(int argc, const char **argv)
 
 TEST_CASE("Command line args", "[cmdline/args]")
 {
-    const char *args[] = {"progname"};
-    CHECK(check_args(1, args) == "xkcd,40,20,333,100");
+    char const *args[] = {"progname"};
+    CHECK(check_args(sizeof args / sizeof args[0], args) == "xkcd,40,20,333,100");
+
+    char const *args1[] = {"progname", "--demo", "rover"};
+    CHECK(check_args(sizeof args1 / sizeof args1[0], args1) == "rover,40,20,333,100");
+
+    char const *args2[] = {"progname", "-d", "glider"};
+    CHECK(check_args(sizeof args2 / sizeof args2[0], args2) == "glider,40,20,333,100");
+
 }

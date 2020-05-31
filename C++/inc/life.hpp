@@ -90,6 +90,6 @@ typedef struct
     uint iteration_count; // number of iterations to perform
 } program_options;
 
-bool options(int argc, const char **argv, program_options &opts);
+bool options(int argc, char const *argv[], program_options &opts);
 
 #endif // __LIFE_H_INCLUDED__
