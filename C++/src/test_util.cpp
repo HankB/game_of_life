@@ -130,5 +130,4 @@ TEST_CASE("Command line args", "[cmdline/args]")
 
     char const *args8[] = {"progname", "-w80"};
     CHECK(check_args(sizeof args8 / sizeof args8[0], args8) == "xkcd,80,20,333,100");
-
 }
