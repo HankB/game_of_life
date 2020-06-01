@@ -145,4 +145,10 @@ TEST_CASE("Command line args", "[cmdline/args]")
 
     char const *argsD[] = {"progname", "-t", "150"};
     CHECK(check_args(sizeof argsD / sizeof argsD[0], argsD) == "xkcd,40,20,150,100");
+
+    char const *argsE[] = {"progname", "--iterations", "250"};
+    CHECK(check_args(sizeof argsE / sizeof argsE[0], argsE) == "xkcd,40,20,333,250");
+
+    char const *argsF[] = {"progname", "-i", "150"};
+    CHECK(check_args(sizeof argsF / sizeof argsF[0], argsF) == "xkcd,40,20,333,150");
 }

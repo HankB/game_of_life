@@ -35,7 +35,7 @@ bool options(int argc, char const *argv[], program_options &opts)
             {"iterations", required_argument, 0, 0},
             {0, 0, 0, 0}};
 
-        c = getopt_long(argc, (char **)argv, "d:w:h:t:", // "w:h:t:i:",
+        c = getopt_long(argc, (char **)argv, "d:w:h:t:i:", // "w:h:t:i:",
                         long_options, &option_index);
         std::cout << "getopt_long()" << c << std::endl;
         if (c == -1)
@@ -65,27 +65,35 @@ bool options(int argc, char const *argv[], program_options &opts)
                 case 3: //timing AKA delay_ms
                     opts.delay_ms = std::stoi(optarg);
                     break;
+                case 4: //iterations
+                    opts.iteration_count = std::stoi(optarg);
+                    break;
                 }
                 break;
 
-            case 'd':   //demo
+            case 'd': //demo
                 printf("option d with value '%s'\n", optarg);
                 opts.name = std::string(optarg);
                 break;
 
-            case 'w':   //width
+            case 'w': //width
                 printf("option w with value '%s'\n", optarg);
                 opts.width = std::stoi(optarg);
                 break;
 
-            case 'h':   //height
+            case 'h': //height
                 printf("option h with value '%s'\n", optarg);
                 opts.height = std::stoi(optarg);
                 break;
 
-            case 't':   //timing AKA delay_ms
+            case 't': //timing AKA delay_ms
                 printf("option h with value '%s'\n", optarg);
                 opts.delay_ms = std::stoi(optarg);
+                break;
+
+            case 'i': //iterations
+                printf("option h with value '%s'\n", optarg);
+                opts.iteration_count = std::stoi(optarg);
                 break;
 
             case '?':
