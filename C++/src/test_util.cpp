@@ -113,4 +113,22 @@ TEST_CASE("Command line args", "[cmdline/args]")
     char const *args2[] = {"progname", "-d", "glider"};
     CHECK(check_args(sizeof args2 / sizeof args2[0], args2) == "glider,40,20,333,100");
 
+    char const *args3[] = {"progname", "--width", "60"};
+    CHECK(check_args(sizeof args3 / sizeof args3[0], args3) == "xkcd,60,20,333,100");
+
+    char const *args4[] = {"progname", "--width", "x"};
+    CHECK(check_args(sizeof args4 / sizeof args4[0], args4) == "unparseable");
+
+    char const *args5[] = {"progname", "--width=60"};
+    CHECK(check_args(sizeof args5 / sizeof args5[0], args5) == "xkcd,60,20,333,100");
+
+    char const *args6[] = {"progname", "-w", "60"};
+    CHECK(check_args(sizeof args6 / sizeof args6[0], args6) == "xkcd,60,20,333,100");
+
+    char const *args7[] = {"progname", "-w", "x"};
+    CHECK(check_args(sizeof args7 / sizeof args7[0], args7) == "unparseable");
+
+    char const *args8[] = {"progname", "-w80"};
+    CHECK(check_args(sizeof args8 / sizeof args8[0], args8) == "xkcd,80,20,333,100");
+
 }

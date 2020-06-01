@@ -35,7 +35,7 @@ bool options(int argc, char const *argv[], program_options &opts)
             {"iterations", required_argument, 0, 0},
             {0, 0, 0, 0}};
 
-        c = getopt_long(argc, (char **)argv, "d:", // "w:h:t:i:",
+        c = getopt_long(argc, (char **)argv, "d:w:", // "w:h:t:i:",
                         long_options, &option_index);
         std::cout << "getopt_long()" << c << std::endl;
         if (c == -1)
@@ -56,7 +56,14 @@ bool options(int argc, char const *argv[], program_options &opts)
                 opts.name = std::string(optarg);
                 break;
             case 1: //width
-                opts.width = std::stoi(optarg);
+                try
+                {
+                    opts.width = std::stoi(optarg);
+                }
+                catch (...)
+                {
+                    return false;
+                }
                 break;
             }
             break;
@@ -64,6 +71,18 @@ bool options(int argc, char const *argv[], program_options &opts)
         case 'd':
             printf("option d with value '%s'\n", optarg);
             opts.name = std::string(optarg);
+            break;
+
+        case 'w':
+            printf("option w with value '%s'\n", optarg);
+                try
+                {
+                    opts.width = std::stoi(optarg);
+                }
+                catch (...)
+                {
+                    return false;
+                }
             break;
 
         case '?':
