@@ -40,58 +40,50 @@ bool options(int argc, char const *argv[], program_options &opts)
         std::cout << "getopt_long()" << c << std::endl;
         if (c == -1)
             break;
-
-        switch (c)
+        try
         {
-        case 0:
-            printf("option %s", long_options[option_index].name);
-            if (optarg)
-                printf(" with arg %s", optarg);
-            printf("\n");
-            // WARNING:
-            // 'option_index' depends on order of elements in long_options[]
-            switch (option_index)
+            switch (c)
             {
-            case 0: //demo
+            case 0:
+                printf("option %s", long_options[option_index].name);
+                if (optarg)
+                    printf(" with arg %s", optarg);
+                printf("\n");
+                // WARNING:
+                // 'option_index' depends on order of elements in long_options[]
+                switch (option_index)
+                {
+                case 0: //demo
+                    opts.name = std::string(optarg);
+                    break;
+                case 1: //width
+                    opts.width = std::stoi(optarg);
+                    break;
+                }
+                break;
+
+            case 'd':
+                printf("option d with value '%s'\n", optarg);
                 opts.name = std::string(optarg);
                 break;
-            case 1: //width
-                try
-                {
-                    opts.width = std::stoi(optarg);
-                }
-                catch (...)
-                {
-                    return false;
-                }
+
+            case 'w':
+                printf("option w with value '%s'\n", optarg);
+                opts.width = std::stoi(optarg);
+                break;
+
+            case '?':
+                printf("Usage ...\n");
+                break;
+
+            default:
+                printf("?? getopt returned character code 0%o ??\n", c);
                 break;
             }
-            break;
-
-        case 'd':
-            printf("option d with value '%s'\n", optarg);
-            opts.name = std::string(optarg);
-            break;
-
-        case 'w':
-            printf("option w with value '%s'\n", optarg);
-                try
-                {
-                    opts.width = std::stoi(optarg);
-                }
-                catch (...)
-                {
-                    return false;
-                }
-            break;
-
-        case '?':
-            printf("Usage ...\n");
-            break;
-
-        default:
-            printf("?? getopt returned character code 0%o ??\n", c);
-            break;
+        }
+        catch (...)
+        {
+            return false;
         }
     }
 
