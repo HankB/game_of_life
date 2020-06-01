@@ -60,6 +60,10 @@ bool options(int argc, char const *argv[], program_options &opts)
                     opts.width = std::stoi(optarg);
                     break;
                 }
+                case 2: //height
+                    opts.height = std::stoi(optarg);
+                    break;
+                }
                 break;
 
             case 'd':
@@ -68,6 +72,11 @@ bool options(int argc, char const *argv[], program_options &opts)
                 break;
 
             case 'w':
+                printf("option w with value '%s'\n", optarg);
+                opts.width = std::stoi(optarg);
+                break;
+
+            case 'h':
                 printf("option w with value '%s'\n", optarg);
                 opts.width = std::stoi(optarg);
                 break;
