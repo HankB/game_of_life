@@ -141,5 +141,12 @@ bool validate_options(program_options &opt, std::string &msg)
         return false;
     }
 
+    if (opt.height < min_height || opt.height > max_height)
+    {
+        buffer << min_height << " <= height <= " << max_height;
+        msg = buffer.str();
+        return false;
+    }
+
     return true;
 }

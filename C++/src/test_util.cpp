@@ -197,4 +197,24 @@ TEST_CASE("Validate command args", "[cmdline/validate]")
     char const *args5[] = {"progname", "-w", "201"};
     REQUIRE(check_validation(sizeof args5 / sizeof args5[0], args5,
                              std::string("5 <= width <= 200")) == false);
+
+    char const *args7[] = {"progname", "-h", "4"};
+    REQUIRE(check_validation(sizeof args7 / sizeof args7[0], args7,
+                             std::string("5 <= height <= 200")) == false);
+
+    char const *args8[] = {"progname", "-h", "5"};
+    REQUIRE(check_validation(sizeof args8 / sizeof args8[0], args8,
+                             std::string()) == true);
+
+    char const *args9[] = {"progname", "-h", "200"};
+    REQUIRE(check_validation(sizeof args9 / sizeof args9[0], args9,
+                             std::string()) == true);
+
+    char const *argsA[] = {"progname", "-h", "-1"};
+    REQUIRE(check_validation(sizeof argsA / sizeof argsA[0], argsA,
+                             std::string("5 <= height <= 200")) == false);
+
+    char const *argsB[] = {"progname", "-h", "201"};
+    REQUIRE(check_validation(sizeof argsB / sizeof argsB[0], argsB,
+                             std::string("5 <= height <= 200")) == false);
 }
