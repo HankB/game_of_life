@@ -115,7 +115,7 @@ bool options(int argc, char const *argv[], program_options &opts)
         }
     }
 
-/* do we care?
+    /* do we care?
     if (optind < argc)
     {
         printf("non-option ARGV-elements: ");
@@ -130,16 +130,16 @@ bool options(int argc, char const *argv[], program_options &opts)
 /** Validate command line options. Return true if all OK or false if not
  * and stuff a message in `msg` to hilp identify the problem.
  */
-                bool validate_options(program_options & opt, std::string & msg)
-                {
-                    std::stringstream buffer;
+bool validate_options(program_options &opt, std::string &msg)
+{
+    std::stringstream buffer;
 
-                    if (opt.width < min_width || opt.width > max_width)
-                    {
-                        buffer << min_width << " <= width <= " << max_width;
-                        msg = buffer.str();
-                        return false;
-                    }
+    if (opt.width < min_width || opt.width > max_width)
+    {
+        buffer << min_width << " <= width <= " << max_width;
+        msg = buffer.str();
+        return false;
+    }
 
-                    return true;
-                }
+    return true;
+}
