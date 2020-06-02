@@ -152,3 +152,49 @@ TEST_CASE("Command line args", "[cmdline/args]")
     char const *argsF[] = {"progname", "-i", "150"};
     CHECK(check_args(sizeof argsF / sizeof argsF[0], argsF) == "xkcd,40,20,333,150");
 }
+
+/** Check validation of cmd line arguments
+ * process the arguments, compare the message (if options() returns false)
+ * and return the status returned by options()
+ */
+bool check_validation(int argc, char const *argv[], std::string msg)
+{
+    program_options opt;
+    std::string warning = std::string();
+    bool rc;
+
+    REQUIRE(options(argc, argv, opt)); // parse args
+    rc = validate_options(opt, warning);
+    if (!rc)
+        CHECK(warning == msg);
+
+    return rc;
+}
+
+TEST_CASE("Validate command args", "[cmdline/validate]")
+{
+
+    char const *args[] = {"progname"};
+    REQUIRE(check_validation(sizeof args / sizeof args[0], args,
+                             std::string()) == true);
+
+    char const *args1[] = {"progname", "-w", "4"};
+    REQUIRE(check_validation(sizeof args1 / sizeof args1[0], args1,
+                             std::string("5 <= width <= 200")) == false);
+
+    char const *args2[] = {"progname", "-w", "5"};
+    REQUIRE(check_validation(sizeof args2 / sizeof args2[0], args2,
+                             std::string()) == true);
+
+    char const *args3[] = {"progname", "-w", "200"};
+    REQUIRE(check_validation(sizeof args3 / sizeof args3[0], args3,
+                             std::string()) == true);
+
+    char const *args4[] = {"progname", "-w", "-1"};
+    REQUIRE(check_validation(sizeof args4 / sizeof args4[0], args4,
+                             std::string("5 <= width <= 200")) == false);
+
+    char const *args5[] = {"progname", "-w", "201"};
+    REQUIRE(check_validation(sizeof args5 / sizeof args5[0], args5,
+                             std::string("5 <= width <= 200")) == false);
+}

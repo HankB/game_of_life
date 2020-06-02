@@ -91,5 +91,10 @@ typedef struct
 } program_options;
 
 bool options(int argc, char const *argv[], program_options &opts);
+bool validate_options(program_options &opt, std::string &msg);
+
+// limits for program options
+static const int min_width = 5;
+static const int max_width = 200;
 
 #endif // __LIFE_H_INCLUDED__

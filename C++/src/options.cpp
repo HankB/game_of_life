@@ -2,6 +2,7 @@
 */
 #include <getopt.h>
 #include <string>
+#include <sstream>
 #include <cstring>
 
 #include "life.hpp"
@@ -118,6 +119,23 @@ bool options(int argc, char const *argv[], program_options &opts)
         while (optind < argc)
             printf("%s ", argv[optind++]);
         printf("\n");
+    }
+
+    return true;
+}
+
+/** Validate command line options. Return true if all OK or false if not
+ * and stuff a message in `msg` to hilp identify the problem.
+ */
+bool validate_options(program_options &opt, std::string &msg)
+{
+    std::stringstream buffer;
+
+    if (opt.width < min_width || opt.width > max_width)
+    {
+        buffer << min_width << " <= width <= " << max_width;
+        msg = buffer.str();
+        return false;
     }
 
     return true;
