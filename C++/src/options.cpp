@@ -29,10 +29,10 @@ bool options(int argc, char const *argv[], program_options &opts)
         int option_index = 0;
         static struct option long_options[] = {
             {"demo", required_argument, 0, 0},
-            {"width", required_argument, 0, 0},
-            {"height", required_argument, 0, 0},
-            {"timing", required_argument, 0, 0},
-            {"iterations", required_argument, 0, 0},
+            {"width", required_argument, 0, 'w'},
+            {"height", required_argument, 0, 'h'},
+            {"timing", required_argument, 0, 't'},
+            {"iterations", required_argument, 0, 'i'},
             {0, 0, 0, 0}};
 
         c = getopt_long(argc, (char **)argv, "d:w:h:t:i:", // "w:h:t:i:",
