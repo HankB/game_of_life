@@ -151,6 +151,12 @@ TEST_CASE("Command line args", "[cmdline/args]")
 
     char const *argsF[] = {"progname", "-i", "150"};
     CHECK(check_args(sizeof argsF / sizeof argsF[0], argsF) == "xkcd,40,20,333,150");
+
+    char const *argsG[] = {"progname", "-i", "2147483647"};
+    CHECK(check_args(sizeof argsG / sizeof argsG[0], argsG) == "xkcd,40,20,333,2147483647");
+
+    char const *argsH[] = {"progname", "--iterations", "2147483647"};
+    CHECK(check_args(sizeof argsH / sizeof argsH[0], argsH) == "xkcd,40,20,333,2147483647");
 }
 
 /** Check validation of cmd line arguments

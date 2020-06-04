@@ -67,6 +67,9 @@ bool options(int argc, char const *argv[], program_options &opts)
                     opts.delay_ms = std::stoi(optarg);
                     break;
                 case 4: //iterations
+                        // It would seem to make sense to use std::strtol() and 
+                        // and expand the range to UINT_MAX but that is not the
+                        // as std::strtol() is still limited to INT_MAX.
                     opts.iteration_count = std::stoi(optarg);
                     break;
                 }
