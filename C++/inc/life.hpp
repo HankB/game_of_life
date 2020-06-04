@@ -100,4 +100,7 @@ static const int max_width = 200;
 static const int min_height = 5;
 static const int max_height = 200;
 
+static const int min_delay_ms = 0;
+static const int max_delay_ms = 20000;
+
 #endif // __LIFE_H_INCLUDED__

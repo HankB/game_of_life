@@ -148,5 +148,12 @@ bool validate_options(program_options &opt, std::string &msg)
         return false;
     }
 
+    if (opt.delay_ms < min_delay_ms || opt.delay_ms > max_delay_ms)
+    {
+        buffer << min_delay_ms << " <= timing <= " << max_delay_ms;
+        msg = buffer.str();
+        return false;
+    }
+
     return true;
 }

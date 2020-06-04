@@ -217,4 +217,21 @@ TEST_CASE("Validate command args", "[cmdline/validate]")
     char const *argsB[] = {"progname", "-h", "201"};
     REQUIRE(check_validation(sizeof argsB / sizeof argsB[0], argsB,
                              std::string("5 <= height <= 200")) == false);
+
+    // timing
+    char const *argsC[] = {"progname", "-t", "-1"};
+    REQUIRE(check_validation(sizeof argsC / sizeof argsC[0], argsC,
+                             std::string("0 <= timing <= 20000")) == false);
+
+    char const *argsD[] = {"progname", "-t", "0"};
+    REQUIRE(check_validation(sizeof argsD / sizeof argsD[0], argsD,
+                             std::string()) == true);
+
+    char const *argsE[] = {"progname", "-t", "20000"};
+    REQUIRE(check_validation(sizeof argsE / sizeof argsE[0], argsE,
+                             std::string()) == true);
+
+    char const *argsF[] = {"progname", "-t", "20001"};
+    REQUIRE(check_validation(sizeof argsF / sizeof argsF[0], argsF,
+                             std::string("0 <= timing <= 20000")) == false);
 }
