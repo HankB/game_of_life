@@ -151,6 +151,11 @@ TEST_CASE("Command line args", "[cmdline/args]")
 
     char const *argsF[] = {"progname", "-i", "150"};
     CHECK(check_args(sizeof argsF / sizeof argsF[0], argsF) == "xkcd,40,20,333,150");
+
+    // max uint? 18446744073709551615
+    char const *argsG[] = {"progname", "-i", "2147483647"};
+    CHECK(check_args(sizeof argsG / sizeof argsG[0], argsG) == "xkcd,40,20,333,2147483647");
+
 }
 
 /** Check validation of cmd line arguments
@@ -174,10 +179,12 @@ bool check_validation(int argc, char const *argv[], std::string msg)
 TEST_CASE("Validate command args", "[cmdline/validate]")
 {
 
+    // no args
     char const *args[] = {"progname"};
     REQUIRE(check_validation(sizeof args / sizeof args[0], args,
                              std::string()) == true);
 
+    // width
     char const *args1[] = {"progname", "-w", "4"};
     REQUIRE(check_validation(sizeof args1 / sizeof args1[0], args1,
                              std::string("5 <= width <= 200")) == false);
@@ -198,6 +205,7 @@ TEST_CASE("Validate command args", "[cmdline/validate]")
     REQUIRE(check_validation(sizeof args5 / sizeof args5[0], args5,
                              std::string("5 <= width <= 200")) == false);
 
+    // height
     char const *args7[] = {"progname", "-h", "4"};
     REQUIRE(check_validation(sizeof args7 / sizeof args7[0], args7,
                              std::string("5 <= height <= 200")) == false);
@@ -234,4 +242,7 @@ TEST_CASE("Validate command args", "[cmdline/validate]")
     char const *argsF[] = {"progname", "-t", "20001"};
     REQUIRE(check_validation(sizeof argsF / sizeof argsF[0], argsF,
                              std::string("0 <= timing <= 20000")) == false);
+
+    // iterations
+
 }
