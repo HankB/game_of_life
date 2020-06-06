@@ -245,5 +245,22 @@ TEST_CASE("Validate command args", "[cmdline/validate]")
                              std::string("0 <= timing <= 20000")) == false);
 
     // iterations
+    // iterations not validated. Any value that can be converted is allowed.
+}
 
+// Checks for canned demos.
+
+TEST_CASE("check demo names", "[demo/names]")
+{
+
+    std::vector<std::string> names = available_demos();
+    std::vector<std::string>::const_iterator n;
+    std::stringstream buffer;
+
+    for (n = names.begin(); n != names.end(); n++)
+        buffer << (*n) << ", ";
+
+    // This will have to be updated when any demo pattern is added.
+    CHECK(buffer.str() == "xkcd, glider, exploder, cyclic_3, ");
+    //
 }

@@ -4,6 +4,7 @@
 */
 
 #include <list>
+#include <vector>
 #include <iostream>
 
 enum cell_state
@@ -102,5 +103,16 @@ static const int max_height = 200;
 
 static const int min_delay_ms = 0;
 static const int max_delay_ms = 20000;
+
+// struct and fuinctions to support predefined (demo)
+// patterns
+
+typedef struct
+{
+    std::string name;
+    std::vector<Cell> cells;
+} demo;
+
+std::vector<std::string> available_demos(void);
 
 #endif // __LIFE_H_INCLUDED__
