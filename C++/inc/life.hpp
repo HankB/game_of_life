@@ -113,6 +113,6 @@ typedef struct
     std::vector<Cell> cells;
 } demo;
 
-std::vector<std::string> available_demos(void);
+const std::vector<std::string> available_demos(void);
 
 #endif // __LIFE_H_INCLUDED__

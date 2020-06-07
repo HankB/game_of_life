@@ -64,7 +64,7 @@ std::vector<demo> examples = {
         },
     },
 };
-std::vector<std::string> available_demos(void)
+const std::vector<std::string> available_demos(void)
 {
     std::vector<std::string> names;
     std::transform(examples.begin(), examples.end(), std::back_inserter(names),
