@@ -264,3 +264,22 @@ TEST_CASE("check demo names", "[demo/names]")
     CHECK(buffer.str() == "xkcd, glider, exploder, cyclic_3, ");
     //
 }
+
+// find a particular demo
+
+TEST_CASE("find demo by name", "[demo/find]")
+{
+    std::vector<demo>::const_iterator it;
+
+    it = find_demo("xkcd");
+    REQUIRE(is_found(it) == true);
+
+    it = find_demo("noxkcd");
+    REQUIRE(is_found(it) == false);
+
+    it = find_demo("glider");
+    REQUIRE(is_found(it) == true);
+
+    it = find_demo("noglider");
+    REQUIRE(is_found(it) == false);
+}

@@ -64,6 +64,7 @@ std::vector<demo> examples = {
         },
     },
 };
+
 const std::vector<std::string> available_demos(void)
 {
     std::vector<std::string> names;
@@ -71,4 +72,20 @@ const std::vector<std::string> available_demos(void)
                    [](demo const &p) -> std::string { return p.name; });
 
     return names;
+}
+
+std::vector<demo>::const_iterator find_demo(const std::string n)
+{
+    /*bool is_demo
+    std::vector<demo>::const_iterator it = std::find_if;
+    */
+    std::vector<demo>::const_iterator it;
+    it = find_if(examples.begin(), examples.end(),
+                 [&n](const demo &obj) { return obj.name == n; });
+    return it;
+}
+
+bool is_found(std::vector<demo>::const_iterator &it)
+{
+    return it != examples.end();
 }
