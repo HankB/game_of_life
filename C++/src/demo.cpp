@@ -90,7 +90,7 @@ bool is_found(std::vector<demo>::const_iterator &it)
     return it != examples.end();
 }
 
-bool load_demo(std::vector<demo>::const_iterator it, Universe u)
+bool load_demo(std::vector<demo>::const_iterator it, Universe &u)
 {
     if (is_found(it))
     {

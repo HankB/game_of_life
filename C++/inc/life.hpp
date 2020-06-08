@@ -116,6 +116,6 @@ typedef struct
 const std::vector<std::string> available_demos(void);
 std::vector<demo>::const_iterator find_demo(const std::string n);
 bool is_found(std::vector<demo>::const_iterator &it);
-bool load_demo(std::vector<demo>::const_iterator it, Universe u);
+bool load_demo(std::vector<demo>::const_iterator it, Universe &u);
 
 #endif // __LIFE_H_INCLUDED__
