@@ -283,3 +283,15 @@ TEST_CASE("find demo by name", "[demo/find]")
     it = find_demo("noglider");
     REQUIRE(is_found(it) == false);
 }
+
+TEST_CASE("load demo by name", "[demo/load]")
+{
+    Universe u = Universe(20, 20);
+    std::vector<demo>::const_iterator it;
+
+    it = find_demo("xkcd");
+    REQUIRE(load_demo(it, u) == true);
+
+    it = find_demo("noxkcd");
+    REQUIRE(load_demo(it, u) == false);
+}

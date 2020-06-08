@@ -89,3 +89,18 @@ bool is_found(std::vector<demo>::const_iterator &it)
 {
     return it != examples.end();
 }
+
+bool load_demo(std::vector<demo>::const_iterator it, Universe u)
+{
+    if (is_found(it))
+    {
+        std::vector<Cell>::const_iterator cell;
+        for (cell = it->cells.begin(); cell != it->cells.end(); cell++)
+            u.add_cell(cell->get_x(), cell->get_y(), live);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
