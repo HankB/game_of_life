@@ -9,8 +9,8 @@ A crude text mode version written in C has a primary drawback that it is not inf
 
 ## Status
 
-* Initial CLI app is working with a hard coded starting point. This initial poattern is the homage to Conway produced by the [XKCD comic](https://xkcd.com/2293/).
-* `ctest` performs all tests including `valgrind`.
+* Initial CLI app is working and work has b egun on supporting command line arguments. This default pattern is the homage to Conway produced by the [XKCD comic](https://xkcd.com/2293/).
+* `ctest` performs all tests including `valgrind`. Except 
 
 ## TODO
 
@@ -43,7 +43,7 @@ mkdir C++/build
 cd C++/build
 cmake ..
 make
-ctest # eventually
+ctest
 ```
 
 ## Testing
