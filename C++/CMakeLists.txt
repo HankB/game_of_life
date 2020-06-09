@@ -36,7 +36,8 @@ add_executable(life
     src/life.cpp
     src/util.cpp
     src/logic.cpp
-    src/demo.cpp)
+    src/demo.cpp
+    src/options.cpp)
 
 # Now some tests
 include(CTest)

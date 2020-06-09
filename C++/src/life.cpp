@@ -5,24 +5,34 @@
 
 #include "life.hpp"
 
-int main(int argdc, char **argv)
+int main(int argc, char **argv)
 {
     Universe u = Universe(20, 20);
     std::vector<demo>::const_iterator it;
-    it = find_demo("xkcd");
-    if (load_demo(it, u))
+    program_options opt;
+
+    if (options(argc, (const char**)argv, opt))
     {
-        for (int i = 0; i < 30; i++)
+        it = find_demo(opt.name);
+        if (load_demo(it, u))
         {
-            u.evaluate_live_cells();
-            u.evaluate_empty_neighbors();
-            u.finish_generation();
-            std::cout << "\033[2J" << u << std::endl;
-            usleep(100000);
+            for (int i = 0; i < 30; i++)
+            {
+                u.evaluate_live_cells();
+                u.evaluate_empty_neighbors();
+                u.finish_generation();
+                std::cout << "\033[2J" << u << std::endl;
+                usleep(100000);
+            }
+        }
+        else
+        {
+            std::cout << "could not load demo" << std::endl;
         }
     }
+
     else
     {
-        std::cout << "could not load demo" << std::endl;
+        std::cout << "Usage statement should be printed here" << std::endl;
     }
 }

@@ -1,6 +1,9 @@
 /** Use getopts() to fetch long and short arguments
 */
+extern "C"
+{
 #include <getopt.h>
+}
 #include <string>
 #include <sstream>
 #include <cstring>
@@ -36,7 +39,7 @@ bool options(int argc, char const *argv[], program_options &opts)
             {"iterations", required_argument, 0, 'i'},
             {0, 0, 0, 0}};
 
-        c = getopt_long(argc, (char **)argv, "d:w:h:t:i:", // "w:h:t:i:",
+        c = getopt_long(argc, (char *const *)argv, "d:w:h:t:i:", // "w:h:t:i:",
                         long_options, &option_index);
         //std::cout << "getopt_long()" << c << std::endl;
         if (c == -1)
@@ -69,9 +72,9 @@ bool options(int argc, char const *argv[], program_options &opts)
                     opts.delay_ms = std::stoi(optarg);
                     break;
                 case 4: //iterations
-                        // It would seem to make sense to use std::strtol() and 
-                        // and expand the range to UINT_MAX but that is not the
-                        // as std::strtol() is still limited to INT_MAX.
+                    // It would seem to make sense to use std::strtol() and
+                    // and expand the range to UINT_MAX but that is not the
+                    // case as std::strtol() is still limited to INT_MAX.
                     opts.iteration_count = std::stoi(optarg);
                     break;
                 }
