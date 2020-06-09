@@ -58,9 +58,9 @@ std::vector<demo> examples = {
     {
         "cyclic_3",
         std::vector<Cell>{
-            {1, 0},
-            {1, 1},
-            {1, 2},
+            {8, 5},
+            {8, 6},
+            {8, 7},
         },
     },
 };
