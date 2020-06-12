@@ -7,7 +7,6 @@
 
 int main(int argc, char **argv)
 {
-    Universe u = Universe(20, 20);
     std::vector<demo>::const_iterator it;
     program_options opt;
 
@@ -17,15 +16,20 @@ int main(int argc, char **argv)
         if (validate_options(opt, warning))
         {
             it = find_demo(opt.name);
+            Universe u = Universe(opt.width, opt.height);
             if (load_demo(it, u))
             {
-                for (int i = 0; i < 30; i++)
+                std::cout << "\033[2J" << u << std::endl; // display initial conditions
+                if (opt.delay_ms > 0)
+                    usleep(opt.delay_ms * 1000);
+                for (uint i = 0; opt.iteration_count == 0 || i < opt.iteration_count; i++)
                 {
                     u.evaluate_live_cells();
                     u.evaluate_empty_neighbors();
                     u.finish_generation();
                     std::cout << "\033[2J" << u << std::endl;
-                    usleep(100000);
+                    if (opt.delay_ms > 0)
+                        usleep(opt.delay_ms * 1000);
                 }
             }
             else
@@ -37,7 +41,6 @@ int main(int argc, char **argv)
         {
             std::cout << "problem validating args: " << warning << std::endl;
         }
-        
     }
     else
     {
