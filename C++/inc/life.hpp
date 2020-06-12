@@ -59,7 +59,7 @@ public:
     uint dim_x(void) const { return grid_dim_x; }
     uint dim_y(void) const { return grid_dim_y; }
     ~Universe(void) {}
-    uint cell_count(void) { return universe.size(); }
+    uint cell_count(void) const { return universe.size(); }
     int add_cell(int x, int y, cell_state st = born);
     void dump(void) const;
     uint count_live_neighbors(const Cell c) const;
