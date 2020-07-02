@@ -99,7 +99,7 @@ IMPLEMENT_APP(MyApp)
 
 static const size_t window_width = 800;
 static const size_t window_height = 600;
-
+static const size_t cell_radius = 5;
 // Application
 
 // `Main program' equivalent: the program execution "starts" here
@@ -149,7 +149,16 @@ void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
     wxBufferedPaintDC bpdc(this);
     bpdc.Clear();
     bpdc.SetMapMode(wxMM_TEXT);
-    DrawCircle(bpdc, 50, 100, 5);
+    size_t origin = 20;
+    DrawCircle(bpdc, origin, origin, cell_radius);
+    DrawCircle(bpdc, origin-cell_radius*2-1, origin-cell_radius*2-1, cell_radius);
+    DrawCircle(bpdc, origin, origin-cell_radius*2-1, cell_radius);
+    DrawCircle(bpdc, origin-cell_radius*2-1, origin, cell_radius);
+    origin = 60;
+    DrawCircle(bpdc, origin, origin, cell_radius);
+    DrawCircle(bpdc, origin-cell_radius*2-2, origin-cell_radius*2-2, cell_radius);
+    DrawCircle(bpdc, origin, origin-cell_radius*2-2, cell_radius);
+    DrawCircle(bpdc, origin-cell_radius*2-2, origin, cell_radius);
 }
 
 // Event table to connect widgets with handlers
