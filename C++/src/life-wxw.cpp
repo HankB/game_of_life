@@ -147,7 +147,7 @@ void MyCanvas::DrawCircle(wxDC &dc, int x, int y, int r)
 void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
 {
     wxBufferedPaintDC bpdc(this);
-    //bpdc.Clear();
+    bpdc.Clear();
     bpdc.SetMapMode(wxMM_TEXT);
     DrawCircle(bpdc, 50, 100, 5);
 }
