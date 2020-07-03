@@ -72,7 +72,7 @@ public:
     void Draw(wxDC &dc);
 
 protected:
-    void DrawCell(wxDC &dc, int x, int y, int r);
+    void DrawCell(wxDC &dc, const wxPoint &coord, int r);
 
 private:
     MyFrame *m_owner;
@@ -136,11 +136,11 @@ MyCanvas::MyCanvas(MyFrame *parent)
 }
 
 // draw circle, rec outline and green fill
-void MyCanvas::DrawCell(wxDC &dc, int x, int y, int r)
+void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord, int r)
 {
     dc.SetPen(*wxRED_PEN);
     dc.SetBrush(*wxGREEN_BRUSH);
-    dc.DrawCircle(x, y, r);
+    dc.DrawCircle(coord.x, coord.y, r);
 }
 
 // time to paint canvas
@@ -149,16 +149,8 @@ void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
     wxBufferedPaintDC bpdc(this);
     bpdc.Clear();
     bpdc.SetMapMode(wxMM_TEXT);
-    size_t origin = 20;
-    DrawCell(bpdc, origin, origin, cell_radius);
-    DrawCell(bpdc, origin-cell_radius*2-1, origin-cell_radius*2-1, cell_radius);
-    DrawCell(bpdc, origin, origin-cell_radius*2-1, cell_radius);
-    DrawCell(bpdc, origin-cell_radius*2-1, origin, cell_radius);
-    origin = 60;
-    DrawCell(bpdc, origin, origin, cell_radius);
-    DrawCell(bpdc, origin-cell_radius*2-2, origin-cell_radius*2-2, cell_radius);
-    DrawCell(bpdc, origin, origin-cell_radius*2-2, cell_radius);
-    DrawCell(bpdc, origin-cell_radius*2-2, origin, cell_radius);
+    wxPoint origin = wxPoint(20,20);
+    DrawCell(bpdc, origin, cell_radius);
 }
 
 // Event table to connect widgets with handlers
