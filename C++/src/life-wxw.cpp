@@ -21,6 +21,7 @@ Borrowing heavily form the .../wxwidgets/samples/drawing/drawing.cpp example cod
 #include "wx/overlay.h"
 
 #include <list>
+#include <iostream>
 
 #include "../res/sample.xpm"
 
@@ -73,6 +74,7 @@ public:
 
 protected:
     void DrawCell(wxDC &dc, const wxPoint &coord, int r);
+    wxPoint MapGridToScreen(int x, int y) const;
 
 private:
     MyFrame *m_owner;
@@ -143,14 +145,31 @@ void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord, int r)
     dc.DrawCircle(coord.x, coord.y, r);
 }
 
+/* map Game of Life cell coordinate to screen coordinates. this
+* requires two transformations. First, cell spacing is 2*(radius + 2)
+* to produce cells that do not touch. Second, screen coordinates 
+* originate at upper left, indreasing left to right and up to down.
+* Grid coordinates behave similarly to a typical Cartesian coordinate
+*/
+wxPoint MyCanvas::MapGridToScreen(int x, int y) const
+{
+    int cell_dim = (cell_radius+2)*2;
+    int vertical_cells = window_height/cell_dim;
+    int x_coord = x*cell_dim+cell_radius+2;
+    int y_coord = (vertical_cells-y)+(cell_radius+2);
+    std::cout << x << " " << y << " to x " << x_coord << " y " << y_coord << std::endl;
+    return wxPoint(x_coord, y_coord);
+}
+
 // time to paint canvas
 void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
 {
     wxBufferedPaintDC bpdc(this);
     bpdc.Clear();
     bpdc.SetMapMode(wxMM_TEXT);
-    wxPoint origin = wxPoint(20,20);
+    wxPoint origin =MapGridToScreen(0,(window_height/(cell_radius*2+4)));
     DrawCell(bpdc, origin, cell_radius);
+    DrawCell(bpdc, MapGridToScreen(2,2), cell_radius);
 }
 
 // Event table to connect widgets with handlers
