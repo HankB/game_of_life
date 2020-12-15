@@ -146,10 +146,10 @@ void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord, int r)
     dc.DrawCircle(coord.x, coord.y, r);
 }
 
-/* map Game of Life cell coordinate to screen coordinates. this
+/* map Game of Life cell coordinate to screen coordinates. This
 * requires two transformations. First, cell spacing is 2*(radius + 2)
 * to produce cells that do not touch. Second, screen coordinates 
-* originate at upper left, indreasing left to right and up to down.
+* originate at upper left, increasing left to right and up to down.
 * Grid coordinates behave similarly to a typical Cartesian coordinate
 */
 wxPoint MyCanvas::MapGridToScreen(int x, int y) const
@@ -157,7 +157,7 @@ wxPoint MyCanvas::MapGridToScreen(int x, int y) const
     int cell_dim = (cell_radius+2)*2;
     int vertical_cells = window_height/cell_dim;
     int x_coord = x*cell_dim+cell_radius+2;
-    int y_coord = (vertical_cells-y)+(cell_radius+2);
+    int y_coord = (vertical_cells-y)*cell_dim + (cell_radius+2);
     std::cout << x << " " << y << " to x " << x_coord << " y " << y_coord << std::endl;
     return wxPoint(x_coord, y_coord);
 }
@@ -168,9 +168,19 @@ void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
     wxBufferedPaintDC bpdc(this);
     bpdc.Clear();
     bpdc.SetMapMode(wxMM_TEXT);
-    wxPoint origin =MapGridToScreen(0,(window_height/(cell_radius*2+4)));
+    //wxPoint origin =MapGridToScreen(0,(window_height/(cell_radius*2+4)));
+    wxPoint origin =MapGridToScreen(0,0);
     DrawCell(bpdc, origin, cell_radius);
+    DrawCell(bpdc, MapGridToScreen(1,1), cell_radius);
     DrawCell(bpdc, MapGridToScreen(2,2), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,42), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,37), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,32), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,27), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,22), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,12), cell_radius);
+    DrawCell(bpdc, MapGridToScreen(0,2), cell_radius);
+
 }
 
 // Event table to connect widgets with handlers
@@ -210,21 +220,23 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
     m_canvas = new MyCanvas(this);
     m_canvas->SetScrollbars(10, 10, 100, 240);
 }
-/*
+
 void MyFrame::OnQuit(wxCommandEvent &WXUNUSED(event))
 {
     // true is to force the frame to close
     Close(true);
 }
-*/
+/*
 void MyFrame::OnShow(wxCommandEvent& event)
 {
     m_canvas->ToShow(event.GetId());
 }
+*/
 
 
 void MyFrame::OnShow(wxCommandEvent &event)
 {
+    m_canvas->ToShow(event.GetId());
     Refresh();
 }
 
