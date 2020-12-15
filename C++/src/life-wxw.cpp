@@ -74,7 +74,7 @@ public:
     void ToShow(int show) { Refresh(); }
 
 protected:
-    void DrawCell(wxDC &dc, const wxPoint &coord, int r);
+    void DrawCell(wxDC &dc, const wxPoint &coord);
     wxPoint MapGridToScreen(int x, int y) const;
 
 private:
@@ -82,6 +82,9 @@ private:
 
     wxIcon m_std_icon;
     wxDECLARE_EVENT_TABLE();
+
+    size_t  grid_height;
+    size_t  grid_width;
 };
 
 // IDs for the controls and the menu commands
@@ -102,7 +105,8 @@ IMPLEMENT_APP(MyApp)
 
 static const size_t window_width = 800;
 static const size_t window_height = 600;
-static const size_t cell_radius = 5;
+static const size_t cell_size = 10;         // size of cell on display
+
 // Application
 
 // `Main program' equivalent: the program execution "starts" here
@@ -134,16 +138,16 @@ MyCanvas::MyCanvas(MyFrame *parent)
 {
     m_owner = parent;
     m_std_icon = wxArtProvider::GetIcon(wxART_INFORMATION);
-    wxPoint currentpoint = wxPoint(50, 50);
-    //add(currentpoint);
+    grid_height = window_height / cell_size;
+    grid_width = window_width  / cell_size;
 }
 
 // draw circle, rec outline and green fill
-void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord, int r)
+void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord)
 {
     dc.SetPen(*wxRED_PEN);
     dc.SetBrush(*wxGREEN_BRUSH);
-    dc.DrawCircle(coord.x, coord.y, r);
+    dc.DrawCircle(coord.x, coord.y, cell_size/2);
 }
 
 /* map Game of Life cell coordinate to screen coordinates. This
@@ -154,11 +158,9 @@ void MyCanvas::DrawCell(wxDC &dc, const wxPoint &coord, int r)
 */
 wxPoint MyCanvas::MapGridToScreen(int x, int y) const
 {
-    int cell_dim = (cell_radius+2)*2;
-    int vertical_cells = window_height/cell_dim;
-    int x_coord = x*cell_dim+cell_radius+2;
-    int y_coord = (vertical_cells-y)*cell_dim + (cell_radius+2);
-    std::cout << x << " " << y << " to x " << x_coord << " y " << y_coord << std::endl;
+    int vertical_cells = window_height/cell_size;
+    int x_coord = x*cell_size+cell_size/2;
+    int y_coord = (vertical_cells-y)*cell_size + (cell_size/2);
     return wxPoint(x_coord, y_coord);
 }
 
@@ -170,16 +172,18 @@ void MyCanvas::OnPaint(wxPaintEvent &WXUNUSED(event))
     bpdc.SetMapMode(wxMM_TEXT);
     //wxPoint origin =MapGridToScreen(0,(window_height/(cell_radius*2+4)));
     wxPoint origin =MapGridToScreen(0,0);
-    DrawCell(bpdc, origin, cell_radius);
-    DrawCell(bpdc, MapGridToScreen(1,1), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(2,2), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,42), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,37), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,32), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,27), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,22), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,12), cell_radius);
-    DrawCell(bpdc, MapGridToScreen(0,2), cell_radius);
+    DrawCell(bpdc, origin);
+    DrawCell(bpdc, MapGridToScreen(1,0));
+    DrawCell(bpdc, MapGridToScreen(1,1));
+    DrawCell(bpdc, MapGridToScreen(2,2));
+    DrawCell(bpdc, MapGridToScreen(0,60));
+    DrawCell(bpdc, MapGridToScreen(0,55));
+    DrawCell(bpdc, MapGridToScreen(0,50));
+    DrawCell(bpdc, MapGridToScreen(0,40));
+    DrawCell(bpdc, MapGridToScreen(0,30));
+    DrawCell(bpdc, MapGridToScreen(0,20));
+    DrawCell(bpdc, MapGridToScreen(0,10));
+    DrawCell(bpdc, MapGridToScreen(0,2));
 
 }
 
