@@ -9,3 +9,9 @@ Fix duplicate definitrion of `MyFrame::OnShow()`. What was I trying to accomplis
 Problem: scrolling the screen makes multiple artifacts on the display. (Will address later)
 
 Problem: mapping GoL grid coordinates to screen coordinates screwed up. Fixed, but needs cleanup. Lots of debug code included at present.
+
+GoL -> screen mapping cleaned up. Good enough for now.
+
+Back to scrolling... Resizing the screen works fine. Scrolling, not so much. About popup refreshes the screen, apparently igfnoring the scrolled position.
+
+Next? Create a real GoL grid and display on screen.
