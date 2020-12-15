@@ -71,6 +71,7 @@ public:
     MyCanvas(MyFrame *parent);
     void OnPaint(wxPaintEvent &event);
     void Draw(wxDC &dc);
+    void ToShow(int show) { Refresh(); }
 
 protected:
     void DrawCell(wxDC &dc, const wxPoint &coord, int r);
@@ -209,12 +210,18 @@ MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
     m_canvas = new MyCanvas(this);
     m_canvas->SetScrollbars(10, 10, 100, 240);
 }
-
+/*
 void MyFrame::OnQuit(wxCommandEvent &WXUNUSED(event))
 {
     // true is to force the frame to close
     Close(true);
 }
+*/
+void MyFrame::OnShow(wxCommandEvent& event)
+{
+    m_canvas->ToShow(event.GetId());
+}
+
 
 void MyFrame::OnShow(wxCommandEvent &event)
 {
