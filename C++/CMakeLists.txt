@@ -12,6 +12,12 @@ include_directories(inc)
 #However, the file(GLOB...) allows for wildcard additions:
 #file(TEST_SOURCES   )
 
+# for wxwidgets application
+find_package(wxWidgets REQUIRED COMPONENTS net core base adv)
+include(${wxWidgets_USE_FILE})
+add_executable(life-wxw src/life-wxw.cpp)
+target_link_libraries(life-wxw ${wxWidgets_LIBRARIES})
+
 # add some C++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -ggdb -Wall -std=c++11 ")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb -Wall -std=c++11 ")
@@ -35,7 +41,9 @@ add_executable(test_util
 add_executable(life 
     src/life.cpp
     src/util.cpp
-    src/logic.cpp)
+    src/logic.cpp
+    src/demo.cpp
+    src/options.cpp)
 
 # Now some tests
 include(CTest)

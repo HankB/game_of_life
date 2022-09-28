@@ -4,6 +4,7 @@
 */
 
 #include <list>
+#include <vector>
 #include <iostream>
 
 enum cell_state
@@ -58,7 +59,7 @@ public:
     uint dim_x(void) const { return grid_dim_x; }
     uint dim_y(void) const { return grid_dim_y; }
     ~Universe(void) {}
-    uint cell_count(void) { return universe.size(); }
+    uint cell_count(void) const { return universe.size(); }
     int add_cell(int x, int y, cell_state st = born);
     void dump(void) const;
     uint count_live_neighbors(const Cell c) const;
@@ -90,6 +91,31 @@ typedef struct
     uint iteration_count; // number of iterations to perform
 } program_options;
 
-bool options(int argc, const char **argv, program_options &opts);
+bool options(int argc, char const *argv[], program_options &opts);
+bool validate_options(program_options &opt, std::string &msg);
+
+// limits for program options
+static const int min_width = 5;
+static const int max_width = 200;
+
+static const int min_height = 5;
+static const int max_height = 200;
+
+static const int min_delay_ms = 0;
+static const int max_delay_ms = 20000;
+
+// struct and fuinctions to support predefined (demo)
+// patterns
+
+typedef struct
+{
+    std::string name;
+    std::vector<Cell> cells;
+} demo;
+
+const std::vector<std::string> available_demos(void);
+std::vector<demo>::const_iterator find_demo(const std::string n);
+bool is_found(std::vector<demo>::const_iterator &it);
+bool load_demo(std::vector<demo>::const_iterator it, Universe &u);
 
 #endif // __LIFE_H_INCLUDED__

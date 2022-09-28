@@ -2,48 +2,83 @@
  * 
  */
 #include <unistd.h>
+#include <ctime>
+#include <sstream>
 
 #include "life.hpp"
 
-int main(int argdc, char** argv)
+void output_results(const Universe &u, uint born, uint died)
 {
-    //int case1[][2] = {{1, 0}, {1, 1}, {1, 2}}; // 3 cell cyclic
-    int case1[][2] = {
-        {5, 5},
-        {7, 5},
-        {5, 6},
-        {7, 6},
-        {6, 7},
-        {9, 7},
-        {4, 8},
-        {6, 8},
-        {8, 8},
-        {3, 9},
-        {5, 9},
-        {6, 9},
-        {7, 9},
-        {6, 10},
-        {5, 11},
-        {7, 11},
-        {5, 12},
-        {7, 12},
-        {5, 13},
-        {6, 13},
-        {7, 13},
-    };
-    Universe u = Universe(20, 20);
+    static uint iteration_count = -1;
+    static time_t update_time = 0;
+    static uint accumulate_born = 0;
+    static uint accumulate_died = 0;
+    static std::stringstream buffer; // for stats
 
-    for (uint i = 0; i < (sizeof case1/sizeof case1[0]); i++)
+    time_t time_now = time(0);
+    accumulate_born += born;
+    accumulate_died += died;
+    iteration_count++;
+
+    if (update_time != time_now) // update stats every second
     {
-        u.add_cell(case1[i][0], case1[i][1], live);
+        buffer.clear();
+        buffer.str("");
+        buffer << iteration_count << " iterations "
+               << u.cell_count() << " cells "
+               << born << " born "
+               << died << " died";
+        update_time = time_now;
+        accumulate_born = accumulate_died = 0;
     }
+    std::cout << "\033[2J" << u << std::endl;
+    std::cout << buffer.str() << std::endl;
+}
 
-    for(int i=0; i<30; i++) {
-        u.evaluate_live_cells();
-        u.evaluate_empty_neighbors();
-        u.finish_generation();
-        std::cout << "\033[2J" << u << std::endl;
-        usleep(100000);
+int main(int argc, char **argv)
+{
+    std::vector<demo>::const_iterator it;
+    program_options opt;
+
+    if (options(argc, (const char **)argv, opt))
+    {
+        std::string warning = std::string();
+        if (validate_options(opt, warning))
+        {
+            it = find_demo(opt.name);
+            Universe u = Universe(opt.width, opt.height);
+            output_results(u, 0, 0); // display initial conditions
+            if (load_demo(it, u))
+            {
+                if (opt.delay_ms > 0)
+                    usleep(opt.delay_ms * 1000);
+                for (uint i = 0;
+                     opt.iteration_count == 0 || i < opt.iteration_count;
+                     i++)
+                {
+                    u.evaluate_live_cells();
+                    uint born = u.evaluate_empty_neighbors();
+                    uint died = u.finish_generation();
+                    //std::cout << "\033[2J" << u << std::endl;
+                    output_results(u, born, died); // display initial conditions
+
+                    if (opt.delay_ms > 0)
+                        usleep(opt.delay_ms * 1000);
+                }
+            }
+            else
+            {
+                std::cout << "could not load demo" << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "problem validating args: " << warning << std::endl;
+        }
     }
-
+    else
+    {
+        std::cout << "Usage statement should be printed here" << std::endl;
+        std::cout << "problem parsing args" << std::endl;
+    }
 }
