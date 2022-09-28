@@ -18,7 +18,11 @@ Complete (as is.) Timing delay between generations is hard coded as are the init
 
 ## Testing
 
-`CUnit` for unit testing. The test executable `test_logic` is built with the electric fence library and compiled with `-fsanitize=address` to detect out of bounds memory access.
+`CUnit` for unit testing. The test executable `test_logic` is built with the electric fence library and compiled with `-fsanitize=address` to detect out of bounds memory access. Install test requirements
+
+```text
+sudo apt install libcunit1 libcunit1-dev electric-fence valgrind
+```
 
 ```text
 make test_logic
